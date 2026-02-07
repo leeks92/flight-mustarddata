@@ -1,0 +1,21 @@
+{
+  "name": "항공편 시간표 - 인천공항 출발편, 도착편 조회",
+  "short_name": "항공편 시간표",
+  "description": "인천국제공항 출발편, 도착편 항공 시간표를 무료로 조회하세요.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0284c7",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

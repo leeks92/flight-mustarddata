@@ -1,0 +1,42 @@
+name: Scheduled Data Fetch
+
+on:
+  schedule:
+    - cron: '0 21 * * *' # 매일 오전 6시 (KST)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch flight data
+        env:
+          FLIGHT_API_KEY: ${{ secrets.FLIGHT_API_KEY }}
+        run: npm run fetch-data
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/
+          # 변경사항이 있을 때만 커밋
+          if ! git diff --quiet || ! git diff --staged --quiet; then
+            git commit -m "Update flight data $(date +'%Y-%m-%d')"
+            git pull --rebase origin main
+            git push
+          fi

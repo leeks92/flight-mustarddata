@@ -1,0 +1,666 @@
+[
+  {
+    "airportCode": "KOJ",
+    "airportName": "가고시마"
+  },
+  {
+    "airportCode": "KHH",
+    "airportName": "가오슝"
+  },
+  {
+    "airportCode": "KMQ",
+    "airportName": "고마쓰"
+  },
+  {
+    "airportCode": "UKB",
+    "airportName": "고베"
+  },
+  {
+    "airportCode": "GUM",
+    "airportName": "괌"
+  },
+  {
+    "airportCode": "CAN",
+    "airportName": "광저우"
+  },
+  {
+    "airportCode": "KMJ",
+    "airportName": "구마모토"
+  },
+  {
+    "airportCode": "KWL",
+    "airportName": "구이린"
+  },
+  {
+    "airportCode": "PUS",
+    "airportName": "김해"
+  },
+  {
+    "airportCode": "NGS",
+    "airportName": "나가사키"
+  },
+  {
+    "airportCode": "NGO",
+    "airportName": "나고야"
+  },
+  {
+    "airportCode": "CXR",
+    "airportName": "나트랑"
+  },
+  {
+    "airportCode": "NKG",
+    "airportName": "난징"
+  },
+  {
+    "airportCode": "EWR",
+    "airportName": "뉴어크"
+  },
+  {
+    "airportCode": "JFK",
+    "airportName": "뉴욕/존에프케네디"
+  },
+  {
+    "airportCode": "KIJ",
+    "airportName": "니가타"
+  },
+  {
+    "airportCode": "DAD",
+    "airportName": "다낭"
+  },
+  {
+    "airportCode": "DLC",
+    "airportName": "다롄(대련)"
+  },
+  {
+    "airportCode": "DAC",
+    "airportName": "다카"
+  },
+  {
+    "airportCode": "TAK",
+    "airportName": "다카마쓰"
+  },
+  {
+    "airportCode": "TAE",
+    "airportName": "대구"
+  },
+  {
+    "airportCode": "DFW",
+    "airportName": "댈러스/포트워스"
+  },
+  {
+    "airportCode": "DPS",
+    "airportName": "덴파사르"
+  },
+  {
+    "airportCode": "DEL",
+    "airportName": "델리"
+  },
+  {
+    "airportCode": "NRT",
+    "airportName": "도쿄/나리타"
+  },
+  {
+    "airportCode": "HND",
+    "airportName": "도쿄/하네다"
+  },
+  {
+    "airportCode": "TKS",
+    "airportName": "도쿠시마"
+  },
+  {
+    "airportCode": "DOH",
+    "airportName": "도하"
+  },
+  {
+    "airportCode": "DXB",
+    "airportName": "두바이"
+  },
+  {
+    "airportCode": "DTW",
+    "airportName": "디트로이트"
+  },
+  {
+    "airportCode": "LAS",
+    "airportName": "라스베이거스"
+  },
+  {
+    "airportCode": "LHR",
+    "airportName": "런던/히드로"
+  },
+  {
+    "airportCode": "FCO",
+    "airportName": "로마"
+  },
+  {
+    "airportCode": "LAX",
+    "airportName": "로스앤젤레스"
+  },
+  {
+    "airportCode": "LIS",
+    "airportName": "리스본"
+  },
+  {
+    "airportCode": "MDC",
+    "airportName": "마나도"
+  },
+  {
+    "airportCode": "MNL",
+    "airportName": "마닐라"
+  },
+  {
+    "airportCode": "MAD",
+    "airportName": "마드리드"
+  },
+  {
+    "airportCode": "MYJ",
+    "airportName": "마쓰야마"
+  },
+  {
+    "airportCode": "MFM",
+    "airportName": "마카오"
+  },
+  {
+    "airportCode": "MEX",
+    "airportName": "멕시코시티"
+  },
+  {
+    "airportCode": "MEL",
+    "airportName": "멜버른"
+  },
+  {
+    "airportCode": "MUC",
+    "airportName": "뮌헨"
+  },
+  {
+    "airportCode": "MSP",
+    "airportName": "미니애폴리스"
+  },
+  {
+    "airportCode": "KMI",
+    "airportName": "미야자키"
+  },
+  {
+    "airportCode": "SHI",
+    "airportName": "미야코지마/시모지시마"
+  },
+  {
+    "airportCode": "MXP",
+    "airportName": "밀라노"
+  },
+  {
+    "airportCode": "WAW",
+    "airportName": "바르샤바"
+  },
+  {
+    "airportCode": "BCN",
+    "airportName": "바르셀로나"
+  },
+  {
+    "airportCode": "BTH",
+    "airportName": "바탐"
+  },
+  {
+    "airportCode": "BWN",
+    "airportName": "반다르스리브가완"
+  },
+  {
+    "airportCode": "DMK",
+    "airportName": "방콕/돈므앙"
+  },
+  {
+    "airportCode": "BKK",
+    "airportName": "방콕/수완나품"
+  },
+  {
+    "airportCode": "YVR",
+    "airportName": "밴쿠버"
+  },
+  {
+    "airportCode": "PKX",
+    "airportName": "베이징/다싱"
+  },
+  {
+    "airportCode": "PEK",
+    "airportName": "베이징/서우두"
+  },
+  {
+    "airportCode": "BOS",
+    "airportName": "보스턴"
+  },
+  {
+    "airportCode": "TAG",
+    "airportName": "보홀 팡라오"
+  },
+  {
+    "airportCode": "BUD",
+    "airportName": "부다페스트"
+  },
+  {
+    "airportCode": "WRO",
+    "airportName": "브로츠와프"
+  },
+  {
+    "airportCode": "BNE",
+    "airportName": "브리즈번"
+  },
+  {
+    "airportCode": "BSZ",
+    "airportName": "비슈케크"
+  },
+  {
+    "airportCode": "VIE",
+    "airportName": "비엔나"
+  },
+  {
+    "airportCode": "VTE",
+    "airportName": "비엔티안"
+  },
+  {
+    "airportCode": "HSG",
+    "airportName": "사가"
+  },
+  {
+    "airportCode": "SPN",
+    "airportName": "사이판"
+  },
+  {
+    "airportCode": "CTS",
+    "airportName": "삿포로"
+  },
+  {
+    "airportCode": "PVG",
+    "airportName": "상하이/푸동"
+  },
+  {
+    "airportCode": "SFO",
+    "airportName": "샌프란시스코"
+  },
+  {
+    "airportCode": "XMN",
+    "airportName": "샤먼"
+  },
+  {
+    "airportCode": "SHE",
+    "airportName": "선양(심양)"
+  },
+  {
+    "airportCode": "SZX",
+    "airportName": "선전"
+  },
+  {
+    "airportCode": "CEB",
+    "airportName": "세부"
+  },
+  {
+    "airportCode": "SDJ",
+    "airportName": "센다이"
+  },
+  {
+    "airportCode": "SLC",
+    "airportName": "솔트레이크시티"
+  },
+  {
+    "airportCode": "CIT",
+    "airportName": "쉼켄트"
+  },
+  {
+    "airportCode": "SJW",
+    "airportName": "스자좡"
+  },
+  {
+    "airportCode": "SYD",
+    "airportName": "시드니"
+  },
+  {
+    "airportCode": "SHM",
+    "airportName": "시라하마"
+  },
+  {
+    "airportCode": "XIY",
+    "airportName": "시안"
+  },
+  {
+    "airportCode": "SEA",
+    "airportName": "시애틀"
+  },
+  {
+    "airportCode": "FSZ",
+    "airportName": "시즈오카"
+  },
+  {
+    "airportCode": "ORD",
+    "airportName": "시카고/오헤어"
+  },
+  {
+    "airportCode": "UBN",
+    "airportName": "신 울란바토르"
+  },
+  {
+    "airportCode": "SIN",
+    "airportName": "싱가포르"
+  },
+  {
+    "airportCode": "SYX",
+    "airportName": "싼야"
+  },
+  {
+    "airportCode": "ADD",
+    "airportName": "아디스아바바/볼레"
+  },
+  {
+    "airportCode": "AUH",
+    "airportName": "아부다비"
+  },
+  {
+    "airportCode": "ASB",
+    "airportName": "아쉬가바트"
+  },
+  {
+    "airportCode": "NQZ",
+    "airportName": "아스타나"
+  },
+  {
+    "airportCode": "AOJ",
+    "airportName": "아오모리"
+  },
+  {
+    "airportCode": "ALA",
+    "airportName": "알마티"
+  },
+  {
+    "airportCode": "AMS",
+    "airportName": "암스테르담"
+  },
+  {
+    "airportCode": "ATL",
+    "airportName": "애틀랜타"
+  },
+  {
+    "airportCode": "ANC",
+    "airportName": "앵커리지"
+  },
+  {
+    "airportCode": "UBJ",
+    "airportName": "야마구치 우베"
+  },
+  {
+    "airportCode": "RGN",
+    "airportName": "양곤"
+  },
+  {
+    "airportCode": "YTY",
+    "airportName": "양저우"
+  },
+  {
+    "airportCode": "YNJ",
+    "airportName": "옌지(연길)"
+  },
+  {
+    "airportCode": "YNZ",
+    "airportName": "옌청"
+  },
+  {
+    "airportCode": "YNT",
+    "airportName": "옌타이"
+  },
+  {
+    "airportCode": "OBO",
+    "airportName": "오비히로"
+  },
+  {
+    "airportCode": "KIX",
+    "airportName": "오사카/ 간사이"
+  },
+  {
+    "airportCode": "OIT",
+    "airportName": "오이타"
+  },
+  {
+    "airportCode": "OKJ",
+    "airportName": "오카야마"
+  },
+  {
+    "airportCode": "AKL",
+    "airportName": "오클랜드(뉴질랜드)"
+  },
+  {
+    "airportCode": "OKA",
+    "airportName": "오키나와"
+  },
+  {
+    "airportCode": "YGJ",
+    "airportName": "요나고"
+  },
+  {
+    "airportCode": "WUX",
+    "airportName": "우시"
+  },
+  {
+    "airportCode": "WUH",
+    "airportName": "우한"
+  },
+  {
+    "airportCode": "IAD",
+    "airportName": "워싱턴"
+  },
+  {
+    "airportCode": "WNZ",
+    "airportName": "원저우"
+  },
+  {
+    "airportCode": "WEH",
+    "airportName": "웨이하이"
+  },
+  {
+    "airportCode": "IBR",
+    "airportName": "이바라키"
+  },
+  {
+    "airportCode": "IST",
+    "airportName": "이스탄불"
+  },
+  {
+    "airportCode": "ISG",
+    "airportName": "이시가키지마"
+  },
+  {
+    "airportCode": "ICN",
+    "airportName": "인천"
+  },
+  {
+    "airportCode": "JMU",
+    "airportName": "자무쓰"
+  },
+  {
+    "airportCode": "CGK",
+    "airportName": "자카르타/수카르노하타"
+  },
+  {
+    "airportCode": "DYG",
+    "airportName": "장가계"
+  },
+  {
+    "airportCode": "CSX",
+    "airportName": "장사"
+  },
+  {
+    "airportCode": "CGO",
+    "airportName": "정저우"
+  },
+  {
+    "airportCode": "TNA",
+    "airportName": "지난"
+  },
+  {
+    "airportCode": "CGQ",
+    "airportName": "창춘"
+  },
+  {
+    "airportCode": "TFU",
+    "airportName": "청두/톈푸"
+  },
+  {
+    "airportCode": "CKG",
+    "airportName": "충칭"
+  },
+  {
+    "airportCode": "CNX",
+    "airportName": "치앙마이"
+  },
+  {
+    "airportCode": "TAO",
+    "airportName": "칭다오"
+  },
+  {
+    "airportCode": "CAI",
+    "airportName": "카이로"
+  },
+  {
+    "airportCode": "KTM",
+    "airportName": "카트만두"
+  },
+  {
+    "airportCode": "KLO",
+    "airportName": "칼리보"
+  },
+  {
+    "airportCode": "KOA",
+    "airportName": "코나"
+  },
+  {
+    "airportCode": "BKI",
+    "airportName": "코타키나발루"
+  },
+  {
+    "airportCode": "CPH",
+    "airportName": "코펜하겐"
+  },
+  {
+    "airportCode": "CMB",
+    "airportName": "콜롬보"
+  },
+  {
+    "airportCode": "KUL",
+    "airportName": "쿠알라룸푸르"
+  },
+  {
+    "airportCode": "KMG",
+    "airportName": "쿤밍"
+  },
+  {
+    "airportCode": "CRK",
+    "airportName": "클라크필드"
+  },
+  {
+    "airportCode": "KKJ",
+    "airportName": "키타큐슈"
+  },
+  {
+    "airportCode": "TAS",
+    "airportName": "타슈켄트"
+  },
+  {
+    "airportCode": "TPE",
+    "airportName": "타이베이"
+  },
+  {
+    "airportCode": "RMQ",
+    "airportName": "타이중/칭촨강"
+  },
+  {
+    "airportCode": "TSN",
+    "airportName": "톈진"
+  },
+  {
+    "airportCode": "YYZ",
+    "airportName": "토론토"
+  },
+  {
+    "airportCode": "CDG",
+    "airportName": "파리/샤를드골"
+  },
+  {
+    "airportCode": "PQC",
+    "airportName": "푸꾸옥"
+  },
+  {
+    "airportCode": "FOC",
+    "airportName": "푸저우"
+  },
+  {
+    "airportCode": "HKT",
+    "airportName": "푸켓"
+  },
+  {
+    "airportCode": "KTI",
+    "airportName": "프놈펜"
+  },
+  {
+    "airportCode": "PRG",
+    "airportName": "프라하"
+  },
+  {
+    "airportCode": "FRA",
+    "airportName": "프랑크푸르트"
+  },
+  {
+    "airportCode": "HAN",
+    "airportName": "하노이"
+  },
+  {
+    "airportCode": "HRB",
+    "airportName": "하얼빈"
+  },
+  {
+    "airportCode": "HAK",
+    "airportName": "하이커우"
+  },
+  {
+    "airportCode": "HPH",
+    "airportName": "하이퐁"
+  },
+  {
+    "airportCode": "HKD",
+    "airportName": "하코다테"
+  },
+  {
+    "airportCode": "HGH",
+    "airportName": "항저우"
+  },
+  {
+    "airportCode": "HFE",
+    "airportName": "허페이"
+  },
+  {
+    "airportCode": "HEL",
+    "airportName": "헬싱키"
+  },
+  {
+    "airportCode": "HNL",
+    "airportName": "호놀룰루"
+  },
+  {
+    "airportCode": "SGN",
+    "airportName": "호찌민"
+  },
+  {
+    "airportCode": "HKG",
+    "airportName": "홍콩"
+  },
+  {
+    "airportCode": "HUN",
+    "airportName": "화롄"
+  },
+  {
+    "airportCode": "FUK",
+    "airportName": "후쿠오카"
+  },
+  {
+    "airportCode": "ZZZ",
+    "airportName": "훈련공역2"
+  },
+  {
+    "airportCode": "HIJ",
+    "airportName": "히로시마"
+  }
+]

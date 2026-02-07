@@ -1,0 +1,88 @@
+@import 'tailwindcss';
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #0284c7;
+  --primary-hover: #0369a1;
+}
+
+/* 다크모드 비활성화 - 라이트 모드만 사용 */
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    'Pretendard',
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 테이블 스타일 */
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule-table th,
+.schedule-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.schedule-table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #111827;
+}
+
+.schedule-table tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* 운항상태 배지 */
+.badge-departed {
+  background-color: #0284c7;
+  color: white;
+}
+
+.badge-arrived {
+  background-color: #16a34a;
+  color: white;
+}
+
+.badge-delayed {
+  background-color: #ea580c;
+  color: white;
+}
+
+.badge-cancelled {
+  background-color: #dc2626;
+  color: white;
+}
+
+.badge-default {
+  background-color: #6b7280;
+  color: white;
+}
