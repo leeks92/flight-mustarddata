@@ -227,6 +227,16 @@ function SearchableSelect({
   );
 }
 
+// 고정된 공항 표시 (선택 불가)
+function FixedAirportDisplay({ code, name }: { code: string; name: string }) {
+  return (
+    <div className="w-full border border-gray-200 rounded-xl p-4 bg-gray-50 text-gray-900 flex items-center justify-between">
+      <span className="text-base font-medium">{name} ({code})</span>
+      <span className="text-xs text-gray-400 bg-gray-200 px-2 py-0.5 rounded">고정</span>
+    </div>
+  );
+}
+
 export default function SearchForm({ airports }: Props) {
   const router = useRouter();
   const [flightType, setFlightType] = useState<'departure' | 'arrival'>('departure');
@@ -241,18 +251,29 @@ export default function SearchForm({ airports }: Props) {
 
   const handleFlightTypeChange = (type: 'departure' | 'arrival') => {
     setFlightType(type);
-    setDeparture('');
-    setArrival('');
+    // 출발편: 출발=인천 고정, 도착편: 도착=인천 고정
+    if (type === 'departure') {
+      setDeparture('ICN');
+      setArrival('');
+    } else {
+      setDeparture('');
+      setArrival('ICN');
+    }
     setError('');
   };
 
+  // 초기 상태: 출발편이므로 출발 공항을 인천으로 고정
+  useEffect(() => {
+    setDeparture('ICN');
+  }, []);
+
   const handleSearch = () => {
-    if (!departure) {
-      setError('출발 공항을 선택해주세요');
+    if (flightType === 'departure' && !arrival) {
+      setError('도착 공항을 선택해주세요');
       return;
     }
-    if (!arrival) {
-      setError('도착 공항을 선택해주세요');
+    if (flightType === 'arrival' && !departure) {
+      setError('출발 공항을 선택해주세요');
       return;
     }
     if (departure === arrival) {
@@ -300,22 +321,30 @@ export default function SearchForm({ airports }: Props) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-2">출발 공항</label>
-          <SearchableSelect
-            airports={sortedAirports}
-            value={departure}
-            onChange={(code) => { setDeparture(code); setError(''); }}
-            placeholder="공항 검색 또는 선택"
-          />
+          {flightType === 'departure' ? (
+            <FixedAirportDisplay code="ICN" name="인천" />
+          ) : (
+            <SearchableSelect
+              airports={sortedAirports}
+              value={departure}
+              onChange={(code) => { setDeparture(code); setError(''); }}
+              placeholder="공항 검색 또는 선택"
+            />
+          )}
         </div>
 
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-2">도착 공항</label>
-          <SearchableSelect
-            airports={sortedAirports}
-            value={arrival}
-            onChange={(code) => { setArrival(code); setError(''); }}
-            placeholder="공항 검색 또는 선택"
-          />
+          {flightType === 'arrival' ? (
+            <FixedAirportDisplay code="ICN" name="인천" />
+          ) : (
+            <SearchableSelect
+              airports={sortedAirports}
+              value={arrival}
+              onChange={(code) => { setArrival(code); setError(''); }}
+              placeholder="공항 검색 또는 선택"
+            />
+          )}
         </div>
 
         <div className="flex items-end">

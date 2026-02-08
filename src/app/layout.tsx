@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 
 import { BASE_URL } from '@/lib/constants';
 
-const GA_ID = 'G-XXXXXXXXXX'; // TODO: Google Analytics 측정 ID 설정
+const GA_ID = 'G-7BEBJG33KL';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -101,8 +101,6 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="google-adsense-account" content="ca-pub-9325661912203986" />
         {/* 네이버 SEO 최적화 메타태그 */}
