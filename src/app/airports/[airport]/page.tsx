@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getAirports, getAirport, getDepartureRoutesFromAirport, getArrivalRoutesToAirport } from '@/lib/data';
+import { getAirports, getAirport, getDepartureRoutesFromAirport, getArrivalRoutesToAirport, getRoutesRelatedToAirport } from '@/lib/data';
 import { getAirportInfo } from '@/lib/airport-info';
 import { BreadcrumbJsonLd, AirportJsonLd } from '@/components/JsonLd';
 import { notFound } from 'next/navigation';
@@ -40,14 +40,30 @@ export default async function AirportDetailPage({ params }: Props) {
   }
 
   const airportName = airport?.airportName || info?.name || airportCode;
-  const depRoutes = getDepartureRoutesFromAirport(airportCode);
-  const arrRoutes = getArrivalRoutesToAirport(airportCode);
+  const isICN = airportCode === 'ICN';
+
+  // 인천공항은 기존 방식 (직접 출발/도착 노선)
+  // 해외 공항은 인천과의 연결 노선을 양방향으로 조회
+  let depRoutes, arrRoutes;
+
+  if (isICN) {
+    depRoutes = getDepartureRoutesFromAirport(airportCode);
+    arrRoutes = getArrivalRoutesToAirport(airportCode);
+  } else {
+    const related = getRoutesRelatedToAirport(airportCode);
+    // fromICN: 인천→해당공항 출발편 = 해당 공항 입장에서 "인천에서 출발하여 이 공항에 도착하는 편"
+    // toICN: 해당공항→인천 도착편 = 해당 공항 입장에서 "이 공항에서 출발하여 인천에 도착하는 편"
+    depRoutes = related.toICN;   // 해당 공항에서 인천으로 출발하는 편
+    arrRoutes = related.fromICN; // 인천에서 해당 공항으로 도착하는 편
+  }
 
   const breadcrumbItems = [
     { name: '홈', url: BASE_URL },
     { name: '공항 정보', url: `${BASE_URL}/airports` },
     { name: airportName, url: `${BASE_URL}/airports/${airportCode}` },
   ];
+
+  const totalRoutes = depRoutes.length + arrRoutes.length;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -101,15 +117,24 @@ export default async function AirportDetailPage({ params }: Props) {
         </div>
       )}
 
-      {/* 출발편 */}
+      {/* 인천 ↔ 해당 공항 노선 안내 (인천이 아닌 경우) */}
+      {!isICN && totalRoutes > 0 && (
+        <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 mb-6 text-sm text-sky-800">
+          <p>인천국제공항(ICN)과 {airportName}({airportCode}) 간 운항 노선입니다.</p>
+        </div>
+      )}
+
+      {/* 출발편: 인천의 경우 ICN→각지, 해외 공항의 경우 해당공항→인천 */}
       {depRoutes.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">출발편 ({depRoutes.length}개 노선)</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
+            {isICN ? '출발편' : `${airportName} → 인천`} ({depRoutes.length}개 노선)
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {depRoutes.map((route) => (
               <Link
-                key={`dep-${route.arrAirportCode}`}
-                href={`/departures/routes/${route.depAirportCode}-${route.arrAirportCode}`}
+                key={`dep-${route.depAirportCode}-${route.arrAirportCode}`}
+                href={`/arrivals/routes/${route.depAirportCode}-${route.arrAirportCode}`}
                 className="bg-white border border-gray-200 rounded-lg p-4 hover:border-sky-300 hover:shadow-md transition-all text-sm"
               >
                 <div className="flex items-center justify-between">
@@ -122,15 +147,17 @@ export default async function AirportDetailPage({ params }: Props) {
         </section>
       )}
 
-      {/* 도착편 */}
+      {/* 도착편: 인천의 경우 각지→ICN, 해외 공항의 경우 인천→해당공항 */}
       {arrRoutes.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">도착편 ({arrRoutes.length}개 노선)</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
+            {isICN ? '도착편' : `인천 → ${airportName}`} ({arrRoutes.length}개 노선)
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {arrRoutes.map((route) => (
               <Link
-                key={`arr-${route.depAirportCode}`}
-                href={`/arrivals/routes/${route.depAirportCode}-${route.arrAirportCode}`}
+                key={`arr-${route.depAirportCode}-${route.arrAirportCode}`}
+                href={`/departures/routes/${route.depAirportCode}-${route.arrAirportCode}`}
                 className="bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-md transition-all text-sm"
               >
                 <div className="flex items-center justify-between">
@@ -143,7 +170,7 @@ export default async function AirportDetailPage({ params }: Props) {
         </section>
       )}
 
-      {depRoutes.length === 0 && arrRoutes.length === 0 && (
+      {totalRoutes === 0 && (
         <div className="text-center py-16 text-gray-500">
           <p className="text-lg">현재 운항 노선 데이터가 없습니다.</p>
           <p className="text-sm mt-2">데이터가 수집되면 자동으로 표시됩니다.</p>

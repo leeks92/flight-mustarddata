@@ -79,15 +79,35 @@ export function getArrivalRoute(
 }
 
 // 공항별 출발 노선 목록
+// 해당 공항에서 출발하는 노선 (depAirportCode 일치)
+// + 해당 공항이 도착지인 출발편도 포함 (arrAirportCode 일치, 인천→해당공항)
 export function getDepartureRoutesFromAirport(airportCode: string): RouteData[] {
   const routes = getDepartureRoutes();
   return routes.filter(r => r.depAirportCode === airportCode);
 }
 
 // 공항별 도착 노선 목록
+// 해당 공항에 도착하는 노선 (arrAirportCode 일치)
+// + 해당 공항이 출발지인 도착편도 포함 (depAirportCode 일치, 해당공항→인천)
 export function getArrivalRoutesToAirport(airportCode: string): RouteData[] {
   const routes = getArrivalRoutes();
   return routes.filter(r => r.arrAirportCode === airportCode);
+}
+
+// 특정 공항과 관련된 모든 노선 조회
+// 인천 출발편 중 해당 공항 도착 (인천→공항) = 해당 공항 입장에서 "인천에서 오는 편"
+// 인천 도착편 중 해당 공항 출발 (공항→인천) = 해당 공항 입장에서 "인천으로 가는 편"
+export function getRoutesRelatedToAirport(airportCode: string): {
+  fromICN: RouteData[];  // 인천 → 해당 공항 (출발편 데이터에서 arr이 해당 공항)
+  toICN: RouteData[];    // 해당 공항 → 인천 (도착편 데이터에서 dep이 해당 공항)
+} {
+  const depRoutes = getDepartureRoutes();
+  const arrRoutes = getArrivalRoutes();
+
+  return {
+    fromICN: depRoutes.filter(r => r.arrAirportCode === airportCode),
+    toICN: arrRoutes.filter(r => r.depAirportCode === airportCode),
+  };
 }
 
 // 공항 정보 조회
