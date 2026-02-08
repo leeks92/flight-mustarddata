@@ -102,7 +102,13 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="google-adsense-account" content="ca-pub-9325661912203986" />
+        <meta name="google-adsense-account" content="ca-pub-3224638013189545" />
+        {/* Google AdSense */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3224638013189545"
+          crossOrigin="anonymous"
+        />
         {/* 네이버 SEO 최적화 메타태그 */}
         <meta name="NaverBot" content="All" />
         <meta name="NaverBot" content="index,follow" />
