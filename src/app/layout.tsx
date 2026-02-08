@@ -89,7 +89,7 @@ export const metadata: Metadata = {
     email: false,
   },
   other: {
-    'naver-site-verification': '', // TODO: 네이버 인증 코드 설정
+    'naver-site-verification': 'e77089d7576a73f7a10129534de4611ae202488e',
   },
 };
 
