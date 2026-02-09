@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background: Sky Blue -->
+  <rect width="512" height="512" rx="115" fill="#0284C7"/>
+  
+  <!-- Airplane Body -->
+  <ellipse cx="256" cy="256" rx="180" ry="32" fill="white" transform="rotate(-15 256 256)"/>
+  
+  <!-- Airplane Nose -->
+  <path d="M425 225 Q460 240 425 255 Z" fill="white" transform="rotate(-15 256 256)"/>
+  
+  <!-- Tail Wing (Vertical) -->
+  <path d="M90 235 L75 180 L110 225 Z" fill="white" transform="rotate(-15 256 256)"/>
+  
+  <!-- Tail Wing (Horizontal) -->
+  <path d="M80 250 L50 270 L80 270 Z" fill="white" opacity="0.8" transform="rotate(-15 256 256)"/>
+  
+  <!-- Main Wings -->
+  <path d="M220 245 L180 155 C178 148 182 142 188 142 L215 142 C220 142 224 147 222 152 L230 245 Z" fill="white" opacity="0.9"/>
+  <path d="M280 275 L320 365 C322 372 318 378 312 378 L285 378 C280 378 276 373 278 368 L270 275 Z" fill="white" opacity="0.9"/>
+  
+  <!-- Windows (on body) -->
+  <circle cx="200" cy="240" r="6" fill="#BAE6FD"/>
+  <circle cx="222" cy="237" r="6" fill="#BAE6FD"/>
+  <circle cx="244" cy="234" r="6" fill="#BAE6FD"/>
+  <circle cx="266" cy="231" r="6" fill="#BAE6FD"/>
+  <circle cx="288" cy="228" r="6" fill="#BAE6FD"/>
+  <circle cx="310" cy="225" r="6" fill="#BAE6FD"/>
+  
+  <!-- Cloud decoration -->
+  <ellipse cx="400" cy="380" rx="40" ry="18" fill="white" opacity="0.3"/>
+  <ellipse cx="120" cy="130" rx="35" ry="15" fill="white" opacity="0.3"/>
+</svg>
