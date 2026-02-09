@@ -68,3 +68,48 @@ jobs:
               \"keyLocation\": \"https://flight.mustarddata.com/95d7b954cbdd0dbfb78b328346fcc866.txt\",
               \"urlList\": $URLS
             }" || echo "IndexNow submission failed (non-critical)"
+
+      - name: Submit to Google Indexing API
+        if: success()
+        env:
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+        run: |
+          if [ -z "$GOOGLE_SERVICE_ACCOUNT_EMAIL" ] || [ -z "$GOOGLE_PRIVATE_KEY" ]; then
+            echo "Google Indexing API credentials not configured, skipping..."
+            exit 0
+          fi
+
+          URLS=(
+            "https://flight.mustarddata.com/"
+            "https://flight.mustarddata.com/출발편/시간표/"
+            "https://flight.mustarddata.com/도착편/시간표/"
+            "https://flight.mustarddata.com/공항/"
+          )
+
+          # JWT 생성
+          HEADER=$(echo -n '{"alg":"RS256","typ":"JWT"}' | openssl base64 -e | tr '+/' '-_' | tr -d '=\n')
+          NOW=$(date +%s)
+          EXP=$((NOW + 3600))
+          PAYLOAD=$(echo -n "{\"iss\":\"$GOOGLE_SERVICE_ACCOUNT_EMAIL\",\"scope\":\"https://www.googleapis.com/auth/indexing\",\"aud\":\"https://oauth2.googleapis.com/token\",\"iat\":$NOW,\"exp\":$EXP}" | openssl base64 -e | tr '+/' '-_' | tr -d '=\n')
+          SIGNATURE=$(echo -n "$HEADER.$PAYLOAD" | openssl dgst -sha256 -sign <(echo "$GOOGLE_PRIVATE_KEY") | openssl base64 -e | tr '+/' '-_' | tr -d '=\n')
+          JWT="$HEADER.$PAYLOAD.$SIGNATURE"
+
+          # Access Token 획득
+          ACCESS_TOKEN=$(curl -s -X POST "https://oauth2.googleapis.com/token" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            -d "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=$JWT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))")
+
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "Failed to get access token, skipping..."
+            exit 0
+          fi
+
+          for URL in "${URLS[@]}"; do
+            RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://indexing.googleapis.com/v3/urlNotifications:publish" \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $ACCESS_TOKEN" \
+              -d "{\"url\":\"$URL\",\"type\":\"URL_UPDATED\"}")
+            echo "Google Indexing: $URL -> $RESPONSE"
+            sleep 0.1
+          done
