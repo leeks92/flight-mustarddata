@@ -37,6 +37,19 @@ jobs:
       - name: Build Next.js
         run: npm run build
 
+      - name: Build Size Report
+        run: |
+          echo "=== Build Size Report ==="
+          HTML_COUNT=$(find ./out -name '*.html' | wc -l | tr -d ' ')
+          TOTAL_SIZE=$(du -sh ./out | cut -f1)
+          JS_SIZE=$(find ./out -name '*.js' -exec du -ch {} + 2>/dev/null | tail -1 | cut -f1)
+          echo "HTML pages: $HTML_COUNT"
+          echo "Total output size: $TOTAL_SIZE"
+          echo "JS bundle size: $JS_SIZE"
+          echo ""
+          echo "Largest HTML files:"
+          find ./out -name '*.html' -exec du -k {} + | sort -rn | head -5 | awk '{printf "  %dKB  %s\n", $1, $2}'
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 

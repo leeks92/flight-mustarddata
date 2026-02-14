@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getAirports, getDepartureRoutes, getArrivalRoutes, getMetadata, getActiveAirportCount } from '@/lib/data';
-import { WebSiteJsonLd, OrganizationJsonLd, FAQJsonLd, ItemListJsonLd, HowToJsonLd, ServiceJsonLd } from '@/components/JsonLd';
+import { WebSiteJsonLd, OrganizationJsonLd, FAQJsonLd, ItemListJsonLd } from '@/components/JsonLd';
 import SearchForm from '@/components/SearchForm';
 import { createRouteSlug } from '@/lib/slugs';
 import { BASE_URL, POPULAR_ROUTES, MAJOR_AIRPORTS } from '@/lib/constants';
@@ -75,18 +75,6 @@ export default function HomePage() {
       <OrganizationJsonLd />
       <FAQJsonLd items={faqItems} />
       <ItemListJsonLd items={popularRouteItems} name="인기 항공 노선" />
-      <HowToJsonLd
-        name="항공편 이용 방법"
-        description="항공편 시간표를 확인하고 항공기를 이용하는 방법을 안내합니다."
-        steps={howToSteps}
-        totalTime="PT3H"
-      />
-      <ServiceJsonLd
-        name="항공편 시간표 서비스"
-        description="인천국제공항 출발편, 도착편 항공 시간표와 운항 정보를 무료로 제공하는 서비스입니다."
-        provider="MustardData"
-        areaServed={['인천', '서울', '부산', '제주', '대구', '청주', '광주', '무안']}
-      />
 
       {/* 히어로 섹션 */}
       <section className="relative h-[400px] flex flex-col justify-center items-center text-white overflow-hidden bg-gradient-to-br from-sky-700 via-sky-600 to-indigo-700">

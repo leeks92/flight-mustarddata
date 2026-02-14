@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getDepartureRoutes, getDepartureRoute, getAirport, formatDays, getMetadata, formatSeason } from '@/lib/data';
+import { getDepartureRoutes, getDepartureRoute, getAirport, getMetadata, formatSeason } from '@/lib/data';
 import { BreadcrumbJsonLd, FlightJsonLd } from '@/components/JsonLd';
 import { createRouteSlug, parseRouteSlug } from '@/lib/slugs';
 import { notFound } from 'next/navigation';
 import { BASE_URL } from '@/lib/constants';
-import DayBadge from '@/components/DayBadge';
+import FlightTable from '@/components/FlightTable';
 
 export const dynamicParams = false;
 
@@ -121,60 +121,7 @@ export default async function DepartureRoutePage({ params }: Props) {
       </div>
 
       {/* 시간표 테이블 */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="schedule-table">
-            <thead>
-              <tr>
-                <th>항공사</th>
-                <th>편명</th>
-                <th>출발 시간</th>
-                <th>운항 요일</th>
-                <th className="hidden sm:table-cell">월</th>
-                <th className="hidden sm:table-cell">화</th>
-                <th className="hidden sm:table-cell">수</th>
-                <th className="hidden sm:table-cell">목</th>
-                <th className="hidden sm:table-cell">금</th>
-                <th className="hidden sm:table-cell">토</th>
-                <th className="hidden sm:table-cell">일</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedFlights.map((flight, index) => (
-                <tr key={index}>
-                  <td className="font-medium">{flight.airline}</td>
-                  <td className="text-sky-600 font-mono">{flight.flightId}</td>
-                  <td className="font-bold">{flight.scheduleTime}</td>
-                  <td className="sm:hidden text-xs">
-                    {formatDays(flight.days)}
-                  </td>
-                  <td className="hidden sm:table-cell text-center">
-                    <DayBadge active={flight.days.mon} />
-                  </td>
-                  <td className="hidden sm:table-cell text-center">
-                    <DayBadge active={flight.days.tue} />
-                  </td>
-                  <td className="hidden sm:table-cell text-center">
-                    <DayBadge active={flight.days.wed} />
-                  </td>
-                  <td className="hidden sm:table-cell text-center">
-                    <DayBadge active={flight.days.thu} />
-                  </td>
-                  <td className="hidden sm:table-cell text-center">
-                    <DayBadge active={flight.days.fri} />
-                  </td>
-                  <td className="hidden sm:table-cell text-center">
-                    <DayBadge active={flight.days.sat} />
-                  </td>
-                  <td className="hidden sm:table-cell text-center">
-                    <DayBadge active={flight.days.sun} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <FlightTable flights={sortedFlights} type="departure" />
 
       {/* 공식 사이트 안내 */}
       <div className="mt-6 bg-sky-50 border border-sky-200 rounded-lg p-4 text-sm">

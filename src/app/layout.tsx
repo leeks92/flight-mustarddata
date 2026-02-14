@@ -103,12 +103,6 @@ export default function RootLayout({
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="google-adsense-account" content="ca-pub-3224638013189545" />
-        {/* Google AdSense */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3224638013189545"
-          crossOrigin="anonymous"
-        />
         {/* 네이버 SEO 최적화 메타태그 */}
         <meta name="NaverBot" content="All" />
         <meta name="NaverBot" content="index,follow" />
@@ -126,6 +120,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.google-analytics.com" />
       </head>
       <body className="min-h-screen flex flex-col">
+        {/* Google AdSense */}
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3224638013189545"
+          crossOrigin="anonymous"
+          strategy="lazyOnload"
+        />
         {/* Google Analytics */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
