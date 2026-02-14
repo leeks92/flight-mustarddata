@@ -11,6 +11,11 @@ export const POPULAR_ROUTES = [
   { dep: 'ICN', arr: 'SIN', depName: '인천', arrName: '싱가포르' },
   { dep: 'ICN', arr: 'PVG', depName: '인천', arrName: '상하이(푸동)' },
   { dep: 'ICN', arr: 'LAX', depName: '인천', arrName: '로스앤젤레스' },
+  // 국내선 인기 노선
+  { dep: 'GMP', arr: 'CJU', depName: '김포', arrName: '제주' },
+  { dep: 'GMP', arr: 'PUS', depName: '김포', arrName: '김해' },
+  { dep: 'PUS', arr: 'CJU', depName: '김해', arrName: '제주' },
+  { dep: 'CJU', arr: 'GMP', depName: '제주', arrName: '김포' },
 ];
 
 // 주요 공항 목록 (메인, sitemap, 공항 페이지 공용)
@@ -23,6 +28,13 @@ export const MAJOR_AIRPORTS = [
   { code: 'CJJ', name: '청주국제공항' },
   { code: 'MWX', name: '무안국제공항' },
   { code: 'SHO', name: '속초양양국제공항' },
+  { code: 'KWJ', name: '광주공항' },
+  { code: 'USN', name: '울산공항' },
+  { code: 'RSU', name: '여수공항' },
+  { code: 'KPO', name: '포항경주공항' },
+  { code: 'WJU', name: '원주공항' },
+  { code: 'KUV', name: '군산공항' },
+  { code: 'HIN', name: '사천공항' },
 ];
 
 // 주요 공항 코드 (sitemap priority용)

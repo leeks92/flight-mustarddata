@@ -78,7 +78,7 @@ export default function NotFound() {
             {[
               { name: '인천 → 도쿄(나리타)', href: '/departures/routes/ICN-NRT' },
               { name: '인천 → 오사카', href: '/departures/routes/ICN-KIX' },
-              { name: '인천 → 방콕', href: '/departures/routes/ICN-BKK' },
+              { name: '김포 → 제주', href: '/departures/routes/GMP-CJU' },
             ].map((route) => (
               <Link
                 key={route.href}

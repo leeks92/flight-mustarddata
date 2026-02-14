@@ -41,7 +41,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${depName} → ${arrName} 도착편 정기운항 시간표 - 항공사, 편명, 운항요일`,
-    description: `${depName}에서 인천(${arrName})까지 정기운항 도착편 시간표입니다. 항공사별 편명, 도착 시간, 요일별 운항 정보를 확인하세요.`,
+    description: `${depName}에서 ${arrName}까지 정기운항 도착편 시간표입니다. 항공사별 편명, 도착 시간, 요일별 운항 정보를 확인하세요.`,
+    openGraph: {
+      title: `${depName} → ${arrName} 도착편 시간표`,
+      description: `${depName}에서 ${arrName}까지 정기운항 도착편 시간표. 항공사별 편명, 도착 시간, 운항 요일 정보.`,
+      url: `${BASE_URL}/arrivals/routes/${routeSlug}`,
+      siteName: '항공편 시간표',
+      type: 'website',
+      locale: 'ko_KR',
+    },
+    twitter: {
+      card: 'summary',
+      title: `${depName} → ${arrName} 도착편 시간표`,
+      description: `${depName}에서 ${arrName}까지 정기운항 도착편 시간표.`,
+    },
     alternates: {
       canonical: `${BASE_URL}/arrivals/routes/${routeSlug}`,
     },
@@ -133,8 +146,8 @@ export default async function ArrivalRoutePage({ params }: Props) {
 
       {/* 안내 문구 */}
       <div className="mt-4 bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
-        <p>* 정기운항편 시간표는 인천국제공항공사 공공데이터를 기반으로 제공되며, 시즌/계절에 따라 변경될 수 있습니다.</p>
-        <p className="mt-1">* 정확한 정보는 각 항공사 또는 <a href="https://www.airport.kr" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">인천공항 공식 사이트</a>에서 확인하세요.</p>
+        <p>* 정기운항편 시간표는 인천국제공항공사 및 한국공항공사의 공공데이터를 기반으로 제공되며, 시즌/계절에 따라 변경될 수 있습니다.</p>
+        <p className="mt-1">* 정확한 정보는 각 항공사 또는 <a href="https://www.airport.kr" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">인천공항 공식 사이트</a>, <a href="https://www.airport.co.kr" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">한국공항공사</a>에서 확인하세요.</p>
       </div>
     </div>
   );

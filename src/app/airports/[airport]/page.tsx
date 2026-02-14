@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getAirports, getAirport, getDepartureRoutesFromAirport, getArrivalRoutesToAirport, getRoutesRelatedToAirport } from '@/lib/data';
+import { getAirports, getAirport, getRoutesRelatedToAirport, getDepartureRoutes, getArrivalRoutes } from '@/lib/data';
 import { getAirportInfo } from '@/lib/airport-info';
+import { getAirportRegion } from '@/lib/airport-regions';
 import { BreadcrumbJsonLd, AirportJsonLd } from '@/components/JsonLd';
 import { notFound } from 'next/navigation';
 import { BASE_URL } from '@/lib/constants';
@@ -27,6 +28,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${name} (${airportCode}) - 공항 정보, 운항 노선`,
     description: `${name}의 위치, 연락처, 출발편/도착편 운항 노선 정보를 확인하세요.`,
+    openGraph: {
+      title: `${name} (${airportCode}) - 공항 정보`,
+      description: `${name}의 위치, 연락처, 출발편/도착편 운항 노선 정보.`,
+      url: `${BASE_URL}/airports/${airportCode}`,
+      siteName: '항공편 시간표',
+      type: 'website',
+      locale: 'ko_KR',
+    },
+    twitter: {
+      card: 'summary',
+      title: `${name} (${airportCode}) - 공항 정보`,
+      description: `${name}의 위치, 연락처, 운항 노선 정보를 확인하세요.`,
+    },
+    alternates: {
+      canonical: `${BASE_URL}/airports/${airportCode}`,
+    },
   };
 }
 
@@ -40,21 +57,20 @@ export default async function AirportDetailPage({ params }: Props) {
   }
 
   const airportName = airport?.airportName || info?.name || airportCode;
-  const isICN = airportCode === 'ICN';
+  const region = getAirportRegion(airportCode);
+  const isKorean = region?.continent === '한국';
 
-  // 인천공항은 기존 방식 (직접 출발/도착 노선)
-  // 해외 공항은 인천과의 연결 노선을 양방향으로 조회
   let depRoutes, arrRoutes;
 
-  if (isICN) {
-    depRoutes = getDepartureRoutesFromAirport(airportCode);
-    arrRoutes = getArrivalRoutesToAirport(airportCode);
-  } else {
+  if (isKorean) {
+    // 한국 공항: 직접 출발/도착 노선 표시
     const related = getRoutesRelatedToAirport(airportCode);
-    // fromICN: 인천→해당공항 출발편 = 해당 공항 입장에서 "인천에서 출발하여 이 공항에 도착하는 편"
-    // toICN: 해당공항→인천 도착편 = 해당 공항 입장에서 "이 공항에서 출발하여 인천에 도착하는 편"
-    depRoutes = related.toICN;   // 해당 공항에서 인천으로 출발하는 편
-    arrRoutes = related.fromICN; // 인천에서 해당 공항으로 도착하는 편
+    depRoutes = related.departures;
+    arrRoutes = related.arrivals;
+  } else {
+    // 외국 공항: 한국 공항과 연결된 모든 노선
+    depRoutes = getDepartureRoutes().filter(r => r.arrAirportCode === airportCode);
+    arrRoutes = getArrivalRoutes().filter(r => r.depAirportCode === airportCode);
   }
 
   const breadcrumbItems = [
@@ -117,18 +133,18 @@ export default async function AirportDetailPage({ params }: Props) {
         </div>
       )}
 
-      {/* 인천 ↔ 해당 공항 노선 안내 (인천이 아닌 경우) */}
-      {!isICN && totalRoutes > 0 && (
+      {/* 외국 공항: 한국 공항과의 연결 노선 안내 */}
+      {!isKorean && totalRoutes > 0 && (
         <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 mb-6 text-sm text-sky-800">
-          <p>인천국제공항(ICN)과 {airportName}({airportCode}) 간 운항 노선입니다.</p>
+          <p>한국 공항과 {airportName}({airportCode}) 간 운항 노선입니다.</p>
         </div>
       )}
 
-      {/* 출발편: 인천의 경우 ICN→각지, 해외 공항의 경우 해당공항→인천 */}
+      {/* 출발편 */}
       {depRoutes.length > 0 && (
         <section className="mb-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">
-            {isICN ? '출발편' : `${airportName} → 인천`} ({depRoutes.length}개 노선)
+            출발편 ({depRoutes.length}개 노선)
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {depRoutes.map((route) => (
@@ -147,11 +163,11 @@ export default async function AirportDetailPage({ params }: Props) {
         </section>
       )}
 
-      {/* 도착편: 인천의 경우 각지→ICN, 해외 공항의 경우 인천→해당공항 */}
+      {/* 도착편 */}
       {arrRoutes.length > 0 && (
         <section className="mb-8">
           <h2 className="text-xl font-bold text-gray-900 mb-4">
-            {isICN ? '도착편' : `인천 → ${airportName}`} ({arrRoutes.length}개 노선)
+            도착편 ({arrRoutes.length}개 노선)
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {arrRoutes.map((route) => (

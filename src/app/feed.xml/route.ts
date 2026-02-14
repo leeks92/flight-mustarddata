@@ -16,30 +16,30 @@ export async function GET() {
   // 메인 페이지
   items.push(`
     <item>
-      <title><![CDATA[항공편 시간표 - 인천공항 출발편, 도착편 조회]]></title>
+      <title><![CDATA[항공편 시간표 - 전국 공항 출발편, 도착편 조회]]></title>
       <link>${BASE_URL}</link>
       <guid>${BASE_URL}</guid>
-      <description><![CDATA[인천국제공항 출발편, 도착편 항공 시간표를 조회하세요. 항공사, 편명, 출발/도착 시간, 터미널 정보를 확인할 수 있습니다.]]></description>
+      <description><![CDATA[전국 15개 공항의 출발편, 도착편 항공 시간표를 조회하세요. 항공사, 편명, 출발/도착 시간, 터미널 정보를 확인할 수 있습니다.]]></description>
       <pubDate>${lastUpdated}</pubDate>
     </item>`);
 
   // 출발편 페이지
   items.push(`
     <item>
-      <title><![CDATA[출발편 시간표 - 인천공항 출발 항공편 조회]]></title>
+      <title><![CDATA[출발편 시간표 - 전국 공항 출발 항공편 조회]]></title>
       <link>${BASE_URL}/departures</link>
       <guid>${BASE_URL}/departures</guid>
-      <description><![CDATA[인천국제공항 출발편 시간표입니다. 목적지별 항공편 정보를 확인하세요.]]></description>
+      <description><![CDATA[전국 공항 출발편 시간표입니다. 목적지별 항공편 정보를 확인하세요.]]></description>
       <pubDate>${lastUpdated}</pubDate>
     </item>`);
 
   // 도착편 페이지
   items.push(`
     <item>
-      <title><![CDATA[도착편 시간표 - 인천공항 도착 항공편 조회]]></title>
+      <title><![CDATA[도착편 시간표 - 전국 공항 도착 항공편 조회]]></title>
       <link>${BASE_URL}/arrivals</link>
       <guid>${BASE_URL}/arrivals</guid>
-      <description><![CDATA[인천국제공항 도착편 시간표입니다. 출발지별 항공편 정보를 확인하세요.]]></description>
+      <description><![CDATA[전국 공항 도착편 시간표입니다. 출발지별 항공편 정보를 확인하세요.]]></description>
       <pubDate>${lastUpdated}</pubDate>
     </item>`);
 
@@ -87,9 +87,9 @@ export async function GET() {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>항공편 시간표 - 인천공항 출발편, 도착편</title>
+    <title>항공편 시간표 - 전국 공항 출발편, 도착편</title>
     <link>${BASE_URL}</link>
-    <description>인천국제공항 출발편, 도착편 항공 시간표를 조회하세요. 항공사, 편명, 출발/도착 시간, 터미널 정보를 확인할 수 있습니다.</description>
+    <description>전국 15개 공항의 출발편, 도착편 항공 시간표를 조회하세요. 항공사, 편명, 출발/도착 시간, 터미널 정보를 확인할 수 있습니다.</description>
     <language>ko</language>
     <lastBuildDate>${now.toUTCString()}</lastBuildDate>
     <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml"/>

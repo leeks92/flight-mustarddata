@@ -1,7 +1,7 @@
 {
-  "name": "항공편 시간표 - 인천공항 출발편, 도착편 조회",
+  "name": "항공편 시간표 - 전국 공항 출발편, 도착편 조회",
   "short_name": "항공편 시간표",
-  "description": "인천국제공항 출발편, 도착편 항공 시간표를 무료로 조회하세요.",
+  "description": "전국 15개 공항의 국내선, 국제선 항공편 시간표를 무료로 조회하세요.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

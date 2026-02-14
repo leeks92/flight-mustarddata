@@ -28,6 +28,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${name} 도착편 시간표 - 출발지별 항공편 조회`,
     description: `${name}에 도착하는 항공편 시간표입니다. 출발지별 항공사, 편명, 도착 시간 정보를 확인하세요.`,
+    openGraph: {
+      title: `${name} 도착편 시간표`,
+      description: `${name}에 도착하는 항공편 시간표. 출발지별 항공사, 편명, 도착 시간 정보.`,
+      url: `${BASE_URL}/arrivals/${airportCode}`,
+      siteName: '항공편 시간표',
+      type: 'website',
+      locale: 'ko_KR',
+    },
+    twitter: {
+      card: 'summary',
+      title: `${name} 도착편 시간표`,
+      description: `${name}에 도착하는 항공편 시간표를 확인하세요.`,
+    },
+    alternates: {
+      canonical: `${BASE_URL}/arrivals/${airportCode}`,
+    },
   };
 }
 

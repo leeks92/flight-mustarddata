@@ -9,6 +9,22 @@ import { BASE_URL } from '@/lib/constants';
 export const metadata: Metadata = {
   title: '공항 정보 - 대륙별·국가별 공항 안내',
   description: '인천공항, 김포공항, 김해공항, 제주공항 등 국내 주요 공항과 해외 공항의 위치, 연락처, 운항 노선 정보를 대륙별·국가별로 확인하세요.',
+  openGraph: {
+    title: '공항 정보 - 대륙별·국가별 공항 안내',
+    description: '국내 주요 공항과 해외 공항의 위치, 연락처, 운항 노선 정보를 확인하세요.',
+    url: `${BASE_URL}/airports`,
+    siteName: '항공편 시간표',
+    type: 'website',
+    locale: 'ko_KR',
+  },
+  twitter: {
+    card: 'summary',
+    title: '공항 정보 - 대륙별·국가별 공항 안내',
+    description: '국내 주요 공항과 해외 공항의 위치, 연락처, 운항 노선 정보를 확인하세요.',
+  },
+  alternates: {
+    canonical: `${BASE_URL}/airports`,
+  },
 };
 
 // 대륙별 아이콘 (이모지)

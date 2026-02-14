@@ -94,20 +94,25 @@ export function getArrivalRoutesToAirport(airportCode: string): RouteData[] {
   return routes.filter(r => r.arrAirportCode === airportCode);
 }
 
-// 특정 공항과 관련된 모든 노선 조회
-// 인천 출발편 중 해당 공항 도착 (인천→공항) = 해당 공항 입장에서 "인천에서 오는 편"
-// 인천 도착편 중 해당 공항 출발 (공항→인천) = 해당 공항 입장에서 "인천으로 가는 편"
+// 특정 공항과 관련된 모든 노선 조회 (제네릭 — ICN 뿐 아니라 모든 공항 지원)
 export function getRoutesRelatedToAirport(airportCode: string): {
-  fromICN: RouteData[];  // 인천 → 해당 공항 (출발편 데이터에서 arr이 해당 공항)
-  toICN: RouteData[];    // 해당 공항 → 인천 (도착편 데이터에서 dep이 해당 공항)
+  departures: RouteData[];  // 이 공항에서 출발하는 노선
+  arrivals: RouteData[];    // 이 공항에 도착하는 노선
 } {
-  const depRoutes = getDepartureRoutes();
-  const arrRoutes = getArrivalRoutes();
-
   return {
-    fromICN: depRoutes.filter(r => r.arrAirportCode === airportCode),
-    toICN: arrRoutes.filter(r => r.depAirportCode === airportCode),
+    departures: getDepartureRoutes().filter(r => r.depAirportCode === airportCode),
+    arrivals: getArrivalRoutes().filter(r => r.arrAirportCode === airportCode),
   };
+}
+
+// 출발 데이터가 있는 한국 출발 공항 목록 (홈페이지 등에서 사용)
+export function getSourceAirports(): Airport[] {
+  const depRoutes = getDepartureRoutes();
+  const codeSet = new Set<string>();
+  depRoutes.forEach(r => codeSet.add(r.depAirportCode));
+
+  const airports = getAirports();
+  return airports.filter(a => codeSet.has(a.airportCode));
 }
 
 // 공항 정보 조회

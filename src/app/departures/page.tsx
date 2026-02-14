@@ -1,13 +1,29 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getDepartureRoutes } from '@/lib/data';
-import { getAllAirportRegions, getContinentOrder, CONTINENT_ORDER } from '@/lib/airport-regions';
+import { getAllAirportRegions, getContinentOrder } from '@/lib/airport-regions';
 import { BreadcrumbJsonLd, ItemListJsonLd } from '@/components/JsonLd';
 import { BASE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
-  title: '출발편 시간표 - 인천공항 출발 항공편 조회',
-  description: '인천국제공항에서 출발하는 항공편 시간표입니다. 목적지별 항공편 정보, 출발 시간, 항공사, 터미널 정보를 대륙별·국가별로 확인하세요.',
+  title: '출발편 시간표 - 전국 공항 출발 항공편 조회',
+  description: '전국 공항에서 출발하는 항공편 시간표입니다. 목적지별 항공편 정보, 출발 시간, 항공사, 터미널 정보를 대륙별·국가별로 확인하세요.',
+  openGraph: {
+    title: '출발편 시간표 - 전국 공항 출발 항공편 조회',
+    description: '전국 공항에서 출발하는 항공편 시간표. 목적지별 항공편 정보를 대륙별·국가별로 확인하세요.',
+    url: `${BASE_URL}/departures`,
+    siteName: '항공편 시간표',
+    type: 'website',
+    locale: 'ko_KR',
+  },
+  twitter: {
+    card: 'summary',
+    title: '출발편 시간표 - 전국 공항 출발 항공편 조회',
+    description: '전국 공항에서 출발하는 항공편 시간표를 확인하세요.',
+  },
+  alternates: {
+    canonical: `${BASE_URL}/departures`,
+  },
 };
 
 // 대륙별 아이콘
@@ -45,6 +61,7 @@ interface DestinationInfo {
   name: string;
   count: number;
   depCode: string; // 출발 공항 코드 (라우팅용)
+  depName: string; // 출발 공항명
 }
 
 interface CountryGroup {
@@ -63,10 +80,24 @@ export default function DepartureListPage() {
   const routes = getDepartureRoutes();
   const regionMap = getAllAirportRegions();
 
-  // 목적지별 그룹핑
+  // 출발 공항 목록 추출
+  const depAirportMap = new Map<string, string>();
+  routes.forEach(route => {
+    depAirportMap.set(route.depAirportCode, route.depAirportName);
+  });
+  const depAirports = Array.from(depAirportMap.entries())
+    .map(([code, name]) => ({ code, name }))
+    .sort((a, b) => {
+      // ICN을 먼저, 나머지는 이름순
+      if (a.code === 'ICN') return -1;
+      if (b.code === 'ICN') return 1;
+      return a.name.localeCompare(b.name, 'ko');
+    });
+
+  // 목적지별 그룹핑 (출발공항도 기록)
   const airportMap = new Map<string, DestinationInfo>();
   routes.forEach(route => {
-    const key = route.arrAirportCode;
+    const key = `${route.depAirportCode}-${route.arrAirportCode}`;
     const existing = airportMap.get(key);
     if (existing) {
       existing.count += route.flights.length;
@@ -76,6 +107,7 @@ export default function DepartureListPage() {
         name: route.arrAirportName,
         count: route.flights.length,
         depCode: route.depAirportCode,
+        depName: route.depAirportName,
       });
     }
   });
@@ -128,7 +160,7 @@ export default function DepartureListPage() {
     .sort((a, b) => b.count - a.count)
     .slice(0, 20)
     .map((dest, i) => ({
-      name: `인천 → ${dest.name} 항공편`,
+      name: `${dest.depName} → ${dest.name} 항공편`,
       url: `${BASE_URL}/departures/routes/${dest.depCode}-${dest.code}`,
       position: i + 1,
     }));
@@ -139,7 +171,7 @@ export default function DepartureListPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <BreadcrumbJsonLd items={breadcrumbItems} />
-      <ItemListJsonLd items={listItems} name="인천공항 출발 목적지" />
+      <ItemListJsonLd items={listItems} name="출발 노선" />
 
       {/* 브레드크럼 */}
       <nav className="text-sm text-gray-500 mb-6">
@@ -149,9 +181,28 @@ export default function DepartureListPage() {
       </nav>
 
       <h1 className="text-3xl font-bold text-gray-900 mb-2">출발편 시간표</h1>
-      <p className="text-gray-600 mb-8">
-        인천국제공항에서 출발하는 {destinations.length}개 목적지 항공편을 대륙별·국가별로 확인하세요.
+      <p className="text-gray-600 mb-6">
+        전국 공항에서 출발하는 {destinations.length}개 노선 항공편을 대륙별·국가별로 확인하세요.
       </p>
+
+      {/* 출발 공항별 바로가기 */}
+      {depAirports.length > 1 && (
+        <div className="mb-6">
+          <h2 className="text-sm font-semibold text-gray-500 mb-2">출발 공항</h2>
+          <div className="flex flex-wrap gap-2">
+            {depAirports.map(({ code, name }) => (
+              <Link
+                key={code}
+                href={`/departures/${code}`}
+                className="inline-flex items-center gap-1 px-3 py-1.5 text-sm bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-full transition-colors border border-sky-200"
+              >
+                {name}
+                <span className="text-xs text-sky-500">{code}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {destinations.length === 0 ? (
         <div className="text-center py-16 text-gray-500">
@@ -209,7 +260,7 @@ export default function DepartureListPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {countryDests.map((dest) => (
                       <Link
-                        key={dest.code}
+                        key={`${dest.depCode}-${dest.code}`}
                         href={`/departures/routes/${dest.depCode}-${dest.code}`}
                         className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg hover:border-sky-300 transition-all group"
                       >
@@ -220,7 +271,7 @@ export default function DepartureListPage() {
                           <span className="text-xs text-gray-400">{dest.count}편</span>
                         </div>
                         <div className="text-base font-bold text-gray-800 group-hover:text-sky-600 transition-colors">
-                          인천 &rarr; {dest.name}
+                          {dest.depName} &rarr; {dest.name}
                         </div>
                       </Link>
                     ))}

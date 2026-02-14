@@ -1,26 +1,26 @@
 import Link from 'next/link';
 import { getAirports, getDepartureRoutes, getArrivalRoutes, getMetadata, getActiveAirportCount } from '@/lib/data';
-import { WebSiteJsonLd, OrganizationJsonLd, FAQJsonLd, ItemListJsonLd } from '@/components/JsonLd';
+import { WebSiteJsonLd, OrganizationJsonLd, FAQJsonLd, ItemListJsonLd, HowToJsonLd } from '@/components/JsonLd';
 import SearchForm from '@/components/SearchForm';
 import { createRouteSlug } from '@/lib/slugs';
 import { BASE_URL, POPULAR_ROUTES, MAJOR_AIRPORTS } from '@/lib/constants';
 
 const faqItems = [
   {
-    question: '인천공항 항공편 시간표는 어떻게 조회하나요?',
-    answer: '본 서비스에서 출발 공항과 도착 공항을 선택하면 해당 노선의 항공편 시간표를 조회할 수 있습니다. 출발편과 도착편을 구분하여 검색이 가능합니다.',
+    question: '항공편 시간표는 어떻게 조회하나요?',
+    answer: '본 서비스에서 출발 공항과 도착 공항을 선택하면 해당 노선의 항공편 시간표를 조회할 수 있습니다. 전국 15개 공항의 출발편과 도착편을 구분하여 검색이 가능합니다.',
   },
   {
-    question: '인천공항 터미널은 어떻게 구분되나요?',
-    answer: '인천국제공항은 제1터미널(T1)과 제2터미널(T2)로 나뉩니다. 대한항공, 델타항공, 에어프랑스 등은 제2터미널, 아시아나항공, 제주항공 등은 제1터미널을 이용합니다.',
+    question: '어떤 공항의 시간표를 조회할 수 있나요?',
+    answer: '인천, 김포, 김해, 제주, 대구, 광주, 울산, 여수, 사천, 포항경주, 군산, 원주, 양양, 무안, 청주 등 전국 15개 공항의 국내선 및 국제선 시간표를 제공합니다.',
   },
   {
     question: '정기운항 시간표는 무엇인가요?',
-    answer: '정기운항 시간표는 시즌별(하계/동계) 고정된 운항 스케줄로, 요일별 취항 여부와 정기 출발/도착 시간을 확인할 수 있습니다. 당일 실시간 운항 현황(지연/결항 등)은 인천국제공항 공식 사이트에서 확인할 수 있습니다.',
+    answer: '정기운항 시간표는 시즌별(하계/동계) 고정된 운항 스케줄로, 요일별 취항 여부와 정기 출발/도착 시간을 확인할 수 있습니다. 당일 실시간 운항 현황(지연/결항 등)은 각 공항 공식 사이트에서 확인할 수 있습니다.',
   },
   {
     question: '국내선 항공편도 조회할 수 있나요?',
-    answer: '현재는 인천국제공항 출발/도착 국제선 항공편 정보를 제공하고 있습니다. 국내선 시간표는 각 항공사 공식 사이트 또는 한국공항공사에서 확인할 수 있습니다.',
+    answer: '네, 전국 15개 공항의 국내선 및 국제선 항공편 시간표를 모두 조회할 수 있습니다. 김포-제주, 김해-제주 등 주요 국내선 노선 정보를 제공합니다.',
   },
   {
     question: '항공권 예매는 어디서 할 수 있나요?',
@@ -68,20 +68,25 @@ export default function HomePage() {
     <div className="min-h-screen bg-gray-50">
       {/* JSON-LD 구조화 데이터 */}
       <WebSiteJsonLd
-        name="인천공항 항공편 시간표 조회"
+        name="항공편 시간표 - 전국 공항 출발편, 도착편 조회"
         url={BASE_URL}
-        description="인천국제공항 출발편, 도착편 항공 시간표를 무료로 조회하세요. 정기운항편 스케줄, 터미널 정보 제공."
+        description="전국 15개 공항의 국내선, 국제선 항공편 시간표를 무료로 조회하세요. 정기운항편 스케줄, 터미널 정보 제공."
       />
       <OrganizationJsonLd />
       <FAQJsonLd items={faqItems} />
       <ItemListJsonLd items={popularRouteItems} name="인기 항공 노선" />
+      <HowToJsonLd
+        name="항공편 시간표 조회 방법"
+        description="전국 15개 공항의 항공편 시간표를 검색하고 항공권을 예매하는 방법을 안내합니다."
+        steps={howToSteps}
+      />
 
       {/* 히어로 섹션 */}
       <section className="relative h-[400px] flex flex-col justify-center items-center text-white overflow-hidden bg-gradient-to-br from-sky-700 via-sky-600 to-indigo-700">
         <div className="absolute inset-0 bg-black/20" />
         <div className="relative z-10 text-center px-4">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
-            인천공항 항공편 시간표
+            항공편 시간표
           </h1>
           <p className="text-lg md:text-xl text-white mb-8 drop-shadow-md max-w-2xl mx-auto">
             출발 공항과 도착 공항을 선택하여 항공편 시간표와 운항 현황을 확인하세요
@@ -135,7 +140,7 @@ export default function HomePage() {
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">출발편 시간표</h3>
-              <p className="text-gray-700 mb-4">인천공항에서 출발하는 항공편 운항정보를 확인하세요.</p>
+              <p className="text-gray-700 mb-4">전국 공항에서 출발하는 항공편 운항정보를 확인하세요.</p>
               <div className="flex items-center text-sky-700 font-medium">
                 바로가기
                 <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
@@ -152,7 +157,7 @@ export default function HomePage() {
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">도착편 시간표</h3>
-              <p className="text-gray-700 mb-4">인천공항에 도착하는 항공편 운항정보를 확인하세요.</p>
+              <p className="text-gray-700 mb-4">전국 공항에 도착하는 항공편 운항정보를 확인하세요.</p>
               <div className="flex items-center text-indigo-700 font-medium">
                 바로가기
                 <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
@@ -248,18 +253,18 @@ export default function HomePage() {
           </h2>
           <div className="space-y-3">
             <p>
-              본 서비스는 인천국제공항공사의 공공데이터포털 API를 활용하여 인천국제공항의 여객편 운항 현황을 제공합니다.
+              본 서비스는 인천국제공항공사 및 한국공항공사의 공공데이터를 활용하여 전국 15개 공항의 여객편 운항 현황을 제공합니다.
               출발편과 도착편의 항공사, 편명, 예정 시간, 터미널, 탑승구 등의 정보를 쉽고 빠르게 검색할 수 있습니다.
             </p>
             <p>
-              <strong>인천국제공항</strong>은 대한민국의 대표 국제공항으로, 연간 약 7천만 명의 여객이 이용하며
-              전 세계 주요 도시로의 항공편을 운항하고 있습니다.
-              제1터미널과 제2터미널을 운영하고 있으며, 항공사별로 이용 터미널이 다릅니다.
+              인천, 김포, 김해, 제주 등 주요 국제공항은 물론, 대구, 광주, 울산, 여수, 청주 등 전국 공항의
+              국내선 및 국제선 항공편 시간표를 제공합니다.
             </p>
             <p>
               제공되는 정보는 기상 상황, 항공사 사정 등에 따라 변경될 수 있습니다.
               정확한 항공편 정보와 예매는
               <a href="https://www.airport.kr" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline font-semibold ml-1">인천국제공항 공식 사이트</a>,
+              <a href="https://www.airport.co.kr" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline font-semibold ml-1">한국공항공사</a>,
               각 항공사 홈페이지를 이용해 주시기 바랍니다.
             </p>
           </div>
