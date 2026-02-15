@@ -27,7 +27,6 @@ jobs:
       - name: Fetch flight data
         env:
           FLIGHT_API_KEY: ${{ secrets.FLIGHT_API_KEY }}
-          KAC_API_KEY: ${{ secrets.KAC_API_KEY }}
         run: npm run fetch-data
 
       - name: Commit and Push changes

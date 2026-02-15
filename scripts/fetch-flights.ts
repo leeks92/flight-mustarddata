@@ -8,7 +8,7 @@
  *    국내선: http://openapi.airport.co.kr/service/rest/DflightScheduleList
  *    국제선: http://openapi.airport.co.kr/service/rest/IflightScheduleList
  *
- * 사용법: npm run fetch-data  (.env 파일에서 FLIGHT_API_KEY, KAC_API_KEY 자동 로드)
+ * 사용법: npm run fetch-data  (.env 파일에서 FLIGHT_API_KEY 자동 로드, KAC도 동일 키 사용)
  */
 
 import 'dotenv/config';
@@ -37,42 +37,25 @@ interface ScheduleItem {
   sunday: string;       // 일요일 취항
 }
 
-/** KAC 국내선 API 응답 항목 */
-interface KacDomesticItem {
-  airlineKorean: string;       // 항공사명 (한글)
-  startcity: string;           // 출발 도시명
-  arrivalcity: string;         // 도착 도시명
-  domesticNum: string;         // 편명
-  domesticStartTime: string;   // 출발 시간 (HHmm)
-  domesticArrivalTime: string; // 도착 시간 (HHmm)
-  domesticMon: string;         // 월요일 (Y/N)
-  domesticTue: string;         // 화요일
-  domesticWed: string;         // 수요일
-  domesticThu: string;         // 목요일
-  domesticFri: string;         // 금요일
-  domesticSat: string;         // 토요일
-  domesticSun: string;         // 일요일
-  domesticStdate: string;      // 운항 시작일
-  domesticEddate: string;      // 운항 종료일
-}
-
-/** KAC 국제선 API 응답 항목 */
-interface KacInternationalItem {
-  airlineKorean: string;         // 항공사명 (한글)
-  airport: string;               // 공항명
-  city: string;                  // 도시명
-  internationalIoType: string;   // IN(도착)/OUT(출발)
-  internationalNum: string;      // 편명
-  internationalTime: string;     // 시간 (HHmm)
-  internationalMon: string;      // 월요일 (Y/N)
-  internationalTue: string;      // 화요일
-  internationalWed: string;      // 수요일
-  internationalThu: string;      // 목요일
-  internationalFri: string;      // 금요일
-  internationalSat: string;      // 토요일
-  internationalSun: string;      // 일요일
-  internationalStdate: string;   // 운항 시작일
-  internationalEddate: string;   // 운항 종료일
+/** KAC API 응답 항목 (국내선/국제선 공통 구조) */
+interface KacFlightItem {
+  airline: string;         // 항공사명 (한글)
+  airlineCode: string;     // 항공사 코드
+  flightid: string;        // 편명
+  st: string;              // 출발/도착 시간 (HHmm)
+  firstdate: string;       // 운항 시작일 (YYYYMMDD)
+  lastdate: string;        // 운항 종료일 (YYYYMMDD)
+  ynmon: string;           // 월요일 (Y/N)
+  yntue: string;           // 화요일
+  ynwed: string;           // 수요일
+  ynthu: string;           // 목요일
+  ynfri: string;           // 금요일
+  ynsat: string;           // 토요일
+  ynsun: string;           // 일요일
+  depCityCode: string;     // 출발 공항 코드
+  arrvCityCode: string;    // 도착 공항 코드
+  depCity: string;         // 출발 도시명
+  arrvCity: string;        // 도착 도시명
 }
 
 interface Airport {
@@ -117,16 +100,16 @@ interface Metadata {
 // ===== 설정 =====
 
 const SERVICE_KEY = process.env.FLIGHT_API_KEY || '';
-const KAC_SERVICE_KEY = process.env.KAC_API_KEY || '';
+const KAC_SERVICE_KEY = process.env.KAC_API_KEY || process.env.FLIGHT_API_KEY || '';
 const DATA_DIR = path.join(process.cwd(), 'data');
 
 // 인천공항공사 여객기 정기운항편 일정 정보 API (HTTPS)
 const DEPARTURE_URL = 'https://apis.data.go.kr/B551177/PaxFltSched/getPaxFltSchedDepartures';
 const ARRIVAL_URL = 'https://apis.data.go.kr/B551177/PaxFltSched/getPaxFltSchedArrivals';
 
-// 한국공항공사 (KAC) API
-const KAC_DOMESTIC_URL = 'http://openapi.airport.co.kr/service/rest/DflightScheduleList/getDflightScheduleList';
-const KAC_INTERNATIONAL_URL = 'http://openapi.airport.co.kr/service/rest/IflightScheduleList/getIflightScheduleList';
+// 한국공항공사 (KAC) API — 공공데이터포털 경유
+const KAC_DOMESTIC_URL = 'http://openapi.airport.co.kr/service/rest/statusofPaxSeasonalFlight/getDPaxSfitSched';
+const KAC_INTERNATIONAL_URL = 'http://openapi.airport.co.kr/service/rest/statusofPaxSeasonalFlight/getIPaxSfitSched';
 
 // KAC 관할 14개 공항
 const KAC_AIRPORTS = ['GMP', 'PUS', 'CJU', 'TAE', 'KWJ', 'USN', 'RSU', 'HIN', 'KPO', 'KUV', 'WJU', 'YNY', 'MWX', 'CJJ'];
@@ -138,13 +121,6 @@ const KAC_AIRPORT_NAMES: Record<string, string> = {
   WJU: '원주', YNY: '양양', MWX: '무안', CJJ: '청주',
 };
 
-// KAC 도시명 → IATA 코드 매핑 (국내선)
-const CITY_TO_IATA: Record<string, string> = {
-  '김포': 'GMP', '김해': 'PUS', '제주': 'CJU', '대구': 'TAE', '광주': 'KWJ',
-  '울산': 'USN', '여수': 'RSU', '사천': 'HIN', '포항': 'KPO', '포항경주': 'KPO',
-  '군산': 'KUV', '원주': 'WJU', '양양': 'YNY', '무안': 'MWX', '청주': 'CJJ',
-  '인천': 'ICN',
-};
 
 // ===== 유틸 함수 =====
 
@@ -420,34 +396,25 @@ async function fetchKacXmlPages(url: string, params: Record<string, string>): Pr
 }
 
 /** KAC 국내선 수집 (특정 공항 출발) */
-async function fetchKacDomestic(airportCode: string): Promise<KacDomesticItem[]> {
-  const today = getTodayStr();
+async function fetchKacDomestic(airportCode: string): Promise<KacFlightItem[]> {
   const items = await fetchKacXmlPages(KAC_DOMESTIC_URL, {
-    schDate: today,
-    schDeptCityCode: airportCode,
+    depCityCode: airportCode,
   });
-  return items as KacDomesticItem[];
+  return items as KacFlightItem[];
 }
 
-/** KAC 국제선 수집 (특정 공항) */
-async function fetchKacInternational(airportCode: string): Promise<KacInternationalItem[]> {
-  const today = getTodayStr();
-  const items = await fetchKacXmlPages(KAC_INTERNATIONAL_URL, {
-    schDate: today,
-    schAirCode: airportCode,
+/** KAC 국제선 수집 (특정 공항 출발 + 도착) */
+async function fetchKacInternational(airportCode: string): Promise<KacFlightItem[]> {
+  // 출발편: depCityCode로 조회
+  const depItems = await fetchKacXmlPages(KAC_INTERNATIONAL_URL, {
+    depCityCode: airportCode,
   });
-  return items as KacInternationalItem[];
-}
-
-/** 도시명에서 IATA 코드 추출 */
-function cityToIata(cityName: string): string | null {
-  if (!cityName) return null;
-  // 정확한 매칭
-  if (CITY_TO_IATA[cityName]) return CITY_TO_IATA[cityName];
-  // 부분 매칭 (예: "포항/경주" → "포항경주")
-  const normalized = cityName.replace(/[\/\s]/g, '');
-  if (CITY_TO_IATA[normalized]) return CITY_TO_IATA[normalized];
-  return null;
+  await delay(500);
+  // 도착편: arrvCityCode로 조회
+  const arrItems = await fetchKacXmlPages(KAC_INTERNATIONAL_URL, {
+    arrvCityCode: airportCode,
+  });
+  return [...depItems, ...arrItems] as KacFlightItem[];
 }
 
 /** RouteData에 항공편 추가 (중복 방지) */
@@ -463,58 +430,65 @@ function addFlightToRoute(routeMap: Map<string, RouteData>, routeKey: string, ro
   }
 }
 
+/** KAC 항공편 항목 → FlightEntry 변환 */
+function kacItemToFlight(item: KacFlightItem): FlightEntry | null {
+  const timeStr = String(item.st || '').padStart(4, '0');
+  const scheduleTime = formatTime(timeStr);
+  if (!scheduleTime) return null;
+
+  return {
+    airline: String(item.airline || ''),
+    flightId: String(item.flightid || ''),
+    scheduleTime,
+    days: {
+      mon: String(item.ynmon) === 'Y',
+      tue: String(item.yntue) === 'Y',
+      wed: String(item.ynwed) === 'Y',
+      thu: String(item.ynthu) === 'Y',
+      fri: String(item.ynfri) === 'Y',
+      sat: String(item.ynsat) === 'Y',
+      sun: String(item.ynsun) === 'Y',
+    },
+    firstDate: formatDate(String(item.firstdate || '')),
+    lastDate: formatDate(String(item.lastdate || '')),
+    season: '',
+  };
+}
+
 /** KAC 국내선 데이터 → RouteData 변환 */
 function processKacDomestic(
-  items: KacDomesticItem[],
+  items: KacFlightItem[],
   depAirportCode: string,
   depRouteMap: Map<string, RouteData>,
   arrRouteMap: Map<string, RouteData>
 ): void {
-  const depName = KAC_AIRPORT_NAMES[depAirportCode] || depAirportCode;
-
   for (const item of items) {
-    const arrCode = cityToIata(item.arrivalcity);
+    const depCode = String(item.depCityCode || depAirportCode);
+    const arrCode = String(item.arrvCityCode || '');
     if (!arrCode) continue;
 
-    // ICN 관련 노선은 스킵 (인천은 국내선 없지만 혹시 대비)
-    if (arrCode === 'ICN' || depAirportCode === 'ICN') continue;
+    // ICN 관련 노선은 스킵
+    if (arrCode === 'ICN' || depCode === 'ICN') continue;
 
-    const arrName = KAC_AIRPORT_NAMES[arrCode] || item.arrivalcity;
-    const timeStr = String(item.domesticStartTime || '').padStart(4, '0');
+    const depName = KAC_AIRPORT_NAMES[depCode] || String(item.depCity || depCode);
+    const arrName = KAC_AIRPORT_NAMES[arrCode] || String(item.arrvCity || arrCode);
 
-    const flight: FlightEntry = {
-      airline: String(item.airlineKorean || ''),
-      flightId: String(item.domesticNum || ''),
-      scheduleTime: formatTime(timeStr),
-      days: {
-        mon: String(item.domesticMon) === 'Y',
-        tue: String(item.domesticTue) === 'Y',
-        wed: String(item.domesticWed) === 'Y',
-        thu: String(item.domesticThu) === 'Y',
-        fri: String(item.domesticFri) === 'Y',
-        sat: String(item.domesticSat) === 'Y',
-        sun: String(item.domesticSun) === 'Y',
-      },
-      firstDate: formatDate(String(item.domesticStdate || '')),
-      lastDate: formatDate(String(item.domesticEddate || '')),
-      season: '',
-    };
+    const flight = kacItemToFlight(item);
+    if (!flight) continue;
 
-    if (!flight.scheduleTime) continue;
-
-    // 출발편: depAirportCode → arrCode
-    const depKey = `${depAirportCode}-${arrCode}`;
+    // 출발편
+    const depKey = `${depCode}-${arrCode}`;
     addFlightToRoute(depRouteMap, depKey, {
-      depAirportCode,
+      depAirportCode: depCode,
       depAirportName: depName,
       arrAirportCode: arrCode,
       arrAirportName: arrName,
     }, flight);
 
-    // 도착편: depAirportCode → arrCode (역방향)
-    const arrKey = `${depAirportCode}-${arrCode}`;
+    // 도착편 (역방향)
+    const arrKey = `${depCode}-${arrCode}`;
     addFlightToRoute(arrRouteMap, arrKey, {
-      depAirportCode,
+      depAirportCode: depCode,
       depAirportName: depName,
       arrAirportCode: arrCode,
       arrAirportName: arrName,
@@ -524,59 +498,43 @@ function processKacDomestic(
 
 /** KAC 국제선 데이터 → RouteData 변환 */
 function processKacInternational(
-  items: KacInternationalItem[],
+  items: KacFlightItem[],
   airportCode: string,
   depRouteMap: Map<string, RouteData>,
   arrRouteMap: Map<string, RouteData>
 ): void {
-  const airportName = KAC_AIRPORT_NAMES[airportCode] || airportCode;
-
   for (const item of items) {
-    const ioType = String(item.internationalIoType || '').toUpperCase();
-    const foreignAirport = String(item.airport || '');
-    const foreignCity = String(item.city || foreignAirport);
-    const timeStr = String(item.internationalTime || '').padStart(4, '0');
+    const depCode = String(item.depCityCode || '');
+    const arrCode = String(item.arrvCityCode || '');
+    if (!depCode || !arrCode) continue;
 
     // ICN 관련 노선 제외 (ICN 데이터는 공공데이터포털에서 수집)
-    if (foreignAirport === 'ICN' || foreignCity.includes('인천')) continue;
+    if (depCode === 'ICN' || arrCode === 'ICN') continue;
 
-    const flight: FlightEntry = {
-      airline: String(item.airlineKorean || ''),
-      flightId: String(item.internationalNum || ''),
-      scheduleTime: formatTime(timeStr),
-      days: {
-        mon: String(item.internationalMon) === 'Y',
-        tue: String(item.internationalTue) === 'Y',
-        wed: String(item.internationalWed) === 'Y',
-        thu: String(item.internationalThu) === 'Y',
-        fri: String(item.internationalFri) === 'Y',
-        sat: String(item.internationalSat) === 'Y',
-        sun: String(item.internationalSun) === 'Y',
-      },
-      firstDate: formatDate(String(item.internationalStdate || '')),
-      lastDate: formatDate(String(item.internationalEddate || '')),
-      season: '',
-    };
+    const depName = KAC_AIRPORT_NAMES[depCode] || String(item.depCity || depCode);
+    const arrName = KAC_AIRPORT_NAMES[arrCode] || String(item.arrvCity || arrCode);
 
-    if (!flight.scheduleTime) continue;
+    const flight = kacItemToFlight(item);
+    if (!flight) continue;
 
-    if (ioType === 'OUT') {
-      // 출발: 한국공항 → 외국공항
-      const routeKey = `${airportCode}-${foreignAirport}`;
+    // depCityCode가 한국 공항이면 출발편, 아니면 도착편
+    const isDepFromKorea = KAC_AIRPORTS.includes(depCode);
+
+    if (isDepFromKorea) {
+      const routeKey = `${depCode}-${arrCode}`;
       addFlightToRoute(depRouteMap, routeKey, {
-        depAirportCode: airportCode,
-        depAirportName: airportName,
-        arrAirportCode: foreignAirport,
-        arrAirportName: foreignCity,
+        depAirportCode: depCode,
+        depAirportName: depName,
+        arrAirportCode: arrCode,
+        arrAirportName: arrName,
       }, flight);
-    } else if (ioType === 'IN') {
-      // 도착: 외국공항 → 한국공항
-      const routeKey = `${foreignAirport}-${airportCode}`;
+    } else {
+      const routeKey = `${depCode}-${arrCode}`;
       addFlightToRoute(arrRouteMap, routeKey, {
-        depAirportCode: foreignAirport,
-        depAirportName: foreignCity,
-        arrAirportCode: airportCode,
-        arrAirportName: airportName,
+        depAirportCode: depCode,
+        depAirportName: depName,
+        arrAirportCode: arrCode,
+        arrAirportName: arrName,
       }, flight);
     }
   }
