@@ -15,6 +15,7 @@ interface AirportSchemaProps {
   telephone?: string;
   url: string;
   iataCode?: string;
+  addressCountry?: string;
 }
 
 interface FlightSchemaProps {
@@ -83,6 +84,7 @@ export function AirportJsonLd({
   telephone,
   url,
   iataCode,
+  addressCountry = 'KR',
 }: AirportSchemaProps) {
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -99,7 +101,7 @@ export function AirportJsonLd({
     schema.address = {
       '@type': 'PostalAddress',
       streetAddress: address,
-      addressCountry: 'KR',
+      addressCountry,
     };
   }
 

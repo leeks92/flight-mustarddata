@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getAirports, getAirport, getRoutesRelatedToAirport, getDepartureRoutes, getArrivalRoutes } from '@/lib/data';
+import { getAirports, getAirport, getRoutesRelatedToAirport, getDepartureRoutes, getArrivalRoutes, getMetadata, formatSeason } from '@/lib/data';
 import { getAirportInfo } from '@/lib/airport-info';
 import { getAirportRegion } from '@/lib/airport-regions';
-import { BreadcrumbJsonLd, AirportJsonLd } from '@/components/JsonLd';
+import { getKoreanAirportExtra } from '@/lib/airport-parking';
+import { computeAirportStats, generateAirportSeoMeta, generateAirportDescription, generateAirportFAQ, getRelatedAirports } from '@/lib/airport-seo';
+import { BreadcrumbJsonLd, AirportJsonLd, FAQJsonLd } from '@/components/JsonLd';
+import AirportInfoSection from '@/components/AirportInfoSection';
 import { notFound } from 'next/navigation';
 import { BASE_URL } from '@/lib/constants';
 
@@ -19,18 +22,54 @@ export async function generateStaticParams() {
   return params.length > 0 ? params : [{ airport: '_placeholder' }];
 }
 
+/** 공항 코드에서 addressCountry ISO 코드 추출 */
+function getCountryCode(airportCode: string): string {
+  const region = getAirportRegion(airportCode);
+  if (!region) return 'KR';
+  const countryMap: Record<string, string> = {
+    '한국': 'KR', '일본': 'JP', '중국': 'CN', '대만': 'TW', '홍콩': 'HK', '마카오': 'MO',
+    '몽골': 'MN', '태국': 'TH', '싱가포르': 'SG', '베트남': 'VN', '필리핀': 'PH',
+    '말레이시아': 'MY', '인도네시아': 'ID', '미얀마': 'MM', '라오스': 'LA', '캄보디아': 'KH',
+    '브루나이': 'BN', '인도': 'IN', '네팔': 'NP', '스리랑카': 'LK', '방글라데시': 'BD',
+    '우즈베키스탄': 'UZ', '카자흐스탄': 'KZ', '키르기스스탄': 'KG', '투르크메니스탄': 'TM',
+    'UAE': 'AE', '카타르': 'QA', '튀르키예': 'TR',
+    '영국': 'GB', '프랑스': 'FR', '독일': 'DE', '네덜란드': 'NL', '이탈리아': 'IT',
+    '스페인': 'ES', '체코': 'CZ', '오스트리아': 'AT', '핀란드': 'FI', '덴마크': 'DK',
+    '폴란드': 'PL', '헝가리': 'HU', '포르투갈': 'PT',
+    '미국': 'US', '캐나다': 'CA', '멕시코': 'MX',
+    '호주': 'AU', '뉴질랜드': 'NZ', '에티오피아': 'ET', '이집트': 'EG',
+  };
+  return countryMap[region.country] || 'KR';
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { airport: airportCode } = await params;
   const airport = getAirport(airportCode);
   const info = getAirportInfo(airportCode);
   const name = airport?.airportName || info?.name || airportCode;
+  const region = getAirportRegion(airportCode);
+  const isKorean = region?.continent === '한국';
+
+  let depRoutes, arrRoutes;
+  if (isKorean) {
+    const related = getRoutesRelatedToAirport(airportCode);
+    depRoutes = related.departures;
+    arrRoutes = related.arrivals;
+  } else {
+    depRoutes = getDepartureRoutes().filter(r => r.arrAirportCode === airportCode);
+    arrRoutes = getArrivalRoutes().filter(r => r.depAirportCode === airportCode);
+  }
+
+  const stats = computeAirportStats(depRoutes, arrRoutes);
+  const extra = isKorean ? getKoreanAirportExtra(airportCode) : null;
+  const seoMeta = generateAirportSeoMeta(airportCode, name, stats, isKorean, !!extra);
 
   return {
-    title: `${name} (${airportCode}) - 공항 정보, 운항 노선`,
-    description: `${name}의 위치, 연락처, 출발편/도착편 운항 노선 정보를 확인하세요.`,
+    title: seoMeta.title,
+    description: seoMeta.description,
     openGraph: {
-      title: `${name} (${airportCode}) - 공항 정보`,
-      description: `${name}의 위치, 연락처, 출발편/도착편 운항 노선 정보.`,
+      title: seoMeta.title,
+      description: seoMeta.description,
       url: `${BASE_URL}/airports/${airportCode}`,
       siteName: '항공편 시간표',
       type: 'website',
@@ -38,8 +77,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary',
-      title: `${name} (${airportCode}) - 공항 정보`,
-      description: `${name}의 위치, 연락처, 운항 노선 정보를 확인하세요.`,
+      title: seoMeta.title,
+      description: seoMeta.description,
     },
     alternates: {
       canonical: `${BASE_URL}/airports/${airportCode}`,
@@ -63,15 +102,24 @@ export default async function AirportDetailPage({ params }: Props) {
   let depRoutes, arrRoutes;
 
   if (isKorean) {
-    // 한국 공항: 직접 출발/도착 노선 표시
     const related = getRoutesRelatedToAirport(airportCode);
     depRoutes = related.departures;
     arrRoutes = related.arrivals;
   } else {
-    // 외국 공항: 한국 공항과 연결된 모든 노선
     depRoutes = getDepartureRoutes().filter(r => r.arrAirportCode === airportCode);
     arrRoutes = getArrivalRoutes().filter(r => r.depAirportCode === airportCode);
   }
+
+  // SEO 데이터 생성
+  const stats = computeAirportStats(depRoutes, arrRoutes);
+  const extra = isKorean ? getKoreanAirportExtra(airportCode) : null;
+  const seoMeta = generateAirportSeoMeta(airportCode, airportName, stats, isKorean, !!extra);
+  const meta = getMetadata();
+  const seasonLabel = meta?.season ? formatSeason(meta.season) : '';
+  const descriptions = generateAirportDescription(airportCode, airportName, stats, isKorean, seasonLabel);
+  const faqItems = generateAirportFAQ(airportCode, airportName, stats, isKorean, extra);
+  const relatedLinks = getRelatedAirports(airportCode);
+  const countryCode = getCountryCode(airportCode);
 
   const breadcrumbItems = [
     { name: '홈', url: BASE_URL },
@@ -90,7 +138,9 @@ export default async function AirportDetailPage({ params }: Props) {
         telephone={info?.telephone}
         url={`${BASE_URL}/airports/${airportCode}`}
         iataCode={airportCode}
+        addressCountry={countryCode}
       />
+      {faqItems.length > 0 && <FAQJsonLd items={faqItems} />}
 
       <nav className="text-sm text-gray-500 mb-6">
         <Link href="/" className="hover:text-sky-600">홈</Link>
@@ -101,8 +151,7 @@ export default async function AirportDetailPage({ params }: Props) {
       </nav>
 
       <div className="flex items-center gap-3 mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">{airportName}</h1>
-        <span className="text-lg font-mono bg-sky-100 text-sky-700 px-3 py-1 rounded-lg">{airportCode}</span>
+        <h1 className="text-3xl font-bold text-gray-900">{seoMeta.h1}</h1>
       </div>
 
       {/* 공항 기본 정보 */}
@@ -129,6 +178,12 @@ export default async function AirportDetailPage({ params }: Props) {
                 {info.international && <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded text-xs">국제선</span>}
               </div>
             </div>
+            {isKorean && extra && (
+              <div className="flex gap-2">
+                <span className="text-gray-500 shrink-0">운영:</span>
+                <span className="text-gray-800">{extra.operatingHours}</span>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -192,6 +247,16 @@ export default async function AirportDetailPage({ params }: Props) {
           <p className="text-sm mt-2">데이터가 수집되면 자동으로 표시됩니다.</p>
         </div>
       )}
+
+      {/* SEO 콘텐츠: 설명, 주차, 혼잡도, 교통편, 관련 공항, FAQ */}
+      <AirportInfoSection
+        descriptions={descriptions}
+        faqItems={faqItems}
+        relatedLinks={relatedLinks}
+        seoMeta={seoMeta}
+        isKorean={isKorean}
+        extra={extra}
+      />
     </div>
   );
 }
