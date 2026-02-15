@@ -1655,7 +1655,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6502",
         "scheduleTime": "19:20",
         "days": {
@@ -2173,7 +2173,7 @@
     "arrAirportName": "제주",
     "flights": [
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6501",
         "scheduleTime": "06:05",
         "days": {
@@ -23952,7 +23952,7 @@
     "arrAirportName": "양양",
     "flights": [
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6702",
         "scheduleTime": "07:55",
         "days": {
@@ -23969,7 +23969,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6712",
         "scheduleTime": "08:30",
         "days": {
@@ -23986,7 +23986,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6702",
         "scheduleTime": "09:35",
         "days": {
@@ -24003,7 +24003,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6702",
         "scheduleTime": "10:05",
         "days": {
@@ -24020,7 +24020,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6704",
         "scheduleTime": "12:30",
         "days": {
@@ -24037,7 +24037,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6704",
         "scheduleTime": "12:50",
         "days": {
@@ -24054,7 +24054,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6704",
         "scheduleTime": "13:35",
         "days": {
@@ -24071,7 +24071,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6704",
         "scheduleTime": "13:55",
         "days": {
@@ -24088,7 +24088,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6704",
         "scheduleTime": "14:50",
         "days": {
@@ -24105,7 +24105,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6704",
         "scheduleTime": "15:10",
         "days": {
@@ -27695,7 +27695,7 @@
     "arrAirportName": "제주",
     "flights": [
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6701",
         "scheduleTime": "09:45",
         "days": {
@@ -27712,7 +27712,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6701",
         "scheduleTime": "10:35",
         "days": {
@@ -27729,7 +27729,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6701",
         "scheduleTime": "10:45",
         "days": {
@@ -27746,7 +27746,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6701",
         "scheduleTime": "12:50",
         "days": {
@@ -27763,7 +27763,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6701",
         "scheduleTime": "13:10",
         "days": {
@@ -27780,7 +27780,7 @@
         "season": ""
       },
       {
-        "airline": "",
+        "airline": "파라타항공",
         "flightId": "PTA/6703",
         "scheduleTime": "17:10",
         "days": {

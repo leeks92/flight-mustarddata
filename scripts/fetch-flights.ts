@@ -119,6 +119,14 @@ const IATA_TO_NAME: Record<string, string> = {
   WJU: '원주', YNY: '양양', MWX: '무안', CJJ: '청주',
 };
 
+// 편명 접두사 → 항공사명 (TAGO API에서 airlineNm 누락 시 사용)
+const FLIGHT_PREFIX_TO_AIRLINE: Record<string, string> = {
+  'KE': '대한항공', 'OZ': '아시아나항공', 'LJ': '진에어',
+  '7C': '제주항공', 'TW': '티웨이항공', 'BX': '에어부산',
+  'RS': '에어서울', 'ZE': '이스타항공', 'YP': '에어프레미아',
+  'RF': '에어로케이', '4V': '플라이강원', 'PTA': '파라타항공',
+};
+
 
 // ===== 유틸 함수 =====
 
@@ -147,6 +155,15 @@ function formatTime(timeStr: string): string {
 function formatDate(dateStr: string): string {
   if (!dateStr || dateStr.length < 8) return '';
   return `${dateStr.substring(0, 4)}-${dateStr.substring(4, 6)}-${dateStr.substring(6, 8)}`;
+}
+
+/** 편명에서 항공사명 추론 (TAGO airlineNm 누락 시) */
+function resolveAirlineName(airlineNm: string | undefined, vihicleId: string): string {
+  if (airlineNm) return String(airlineNm);
+  const id = String(vihicleId || '');
+  // "PTA/6501" → "PTA", "OZ8903" → "OZ", "7C101" → "7C"
+  const prefix = id.includes('/') ? id.split('/')[0] : id.replace(/\d+$/, '');
+  return FLIGHT_PREFIX_TO_AIRLINE[prefix] || prefix;
 }
 
 /** 오늘 날짜를 YYYYMMDD 형식으로 반환 */
@@ -536,7 +553,7 @@ async function collectTagoDomesticData(
 
           if (!flightDays.has(key)) {
             flightDays.set(key, {
-              airline: String(f.airlineNm || ''),
+              airline: resolveAirlineName(f.airlineNm, f.vihicleId),
               flightId,
               scheduleTime,
               days: new Set(),
