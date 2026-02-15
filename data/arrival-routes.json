@@ -4408,37 +4408,20 @@
         "season": "W25"
       },
       {
-        "airline": "버진 애트란틱항공",
-        "flightId": "VS5504",
-        "scheduleTime": "12:00",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-02",
-        "lastDate": "2026-02-15",
-        "season": "W25"
-      },
-      {
         "airline": "대한항공",
         "flightId": "KE706",
         "scheduleTime": "12:00",
         "days": {
           "mon": true,
           "tue": true,
-          "wed": true,
+          "wed": false,
           "thu": true,
           "fri": true,
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-02-02",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-22",
         "season": "W25"
       },
       {
@@ -4448,14 +4431,14 @@
         "days": {
           "mon": true,
           "tue": true,
-          "wed": true,
+          "wed": false,
           "thu": true,
           "fri": true,
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-02-02",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-22",
         "season": "W25"
       },
       {
@@ -4465,14 +4448,14 @@
         "days": {
           "mon": true,
           "tue": true,
-          "wed": true,
+          "wed": false,
           "thu": true,
           "fri": true,
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-02-02",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-22",
         "season": "W25"
       },
       {
@@ -4482,14 +4465,31 @@
         "days": {
           "mon": true,
           "tue": true,
-          "wed": true,
+          "wed": false,
           "thu": true,
           "fri": true,
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-02-02",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-22",
+        "season": "W25"
+      },
+      {
+        "airline": "버진 애트란틱항공",
+        "flightId": "VS5504",
+        "scheduleTime": "12:00",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": false,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-22",
         "season": "W25"
       },
       {
@@ -7578,23 +7578,6 @@
       },
       {
         "airline": "에바항공",
-        "flightId": "BR1160",
-        "scheduleTime": "09:45",
-        "days": {
-          "mon": false,
-          "tue": false,
-          "wed": false,
-          "thu": false,
-          "fri": false,
-          "sat": false,
-          "sun": true
-        },
-        "firstDate": "2026-02-15",
-        "lastDate": "2026-02-15",
-        "season": "W25"
-      },
-      {
-        "airline": "에바항공",
         "flightId": "BR170",
         "scheduleTime": "10:30",
         "days": {
@@ -7710,23 +7693,6 @@
         },
         "firstDate": "2025-12-05",
         "lastDate": "2026-03-28",
-        "season": "W25"
-      },
-      {
-        "airline": "중화항공",
-        "flightId": "CI2162",
-        "scheduleTime": "11:05",
-        "days": {
-          "mon": false,
-          "tue": false,
-          "wed": false,
-          "thu": false,
-          "fri": false,
-          "sat": false,
-          "sun": true
-        },
-        "firstDate": "2026-02-15",
-        "lastDate": "2026-02-15",
         "season": "W25"
       },
       {
@@ -10418,8 +10384,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-01-14",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -10435,8 +10401,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-01-14",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -10452,8 +10418,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-01-14",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -10474,6 +10440,23 @@
         "season": "W25"
       },
       {
+        "airline": "산동항공",
+        "flightId": "SC4617",
+        "scheduleTime": "20:10",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
+        "season": "W25"
+      },
+      {
         "airline": "아시아나항공",
         "flightId": "OZ6708",
         "scheduleTime": "20:10",
@@ -10486,8 +10469,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-01-14",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -10503,42 +10486,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-01-14",
-        "lastDate": "2026-02-15",
-        "season": "W25"
-      },
-      {
-        "airline": "산동항공",
-        "flightId": "SC4617",
-        "scheduleTime": "20:10",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-14",
-        "lastDate": "2026-02-15",
-        "season": "W25"
-      },
-      {
-        "airline": "상하이항공",
-        "flightId": "FM3075",
-        "scheduleTime": "20:40",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": false,
-          "thu": true,
-          "fri": false,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-26",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -10546,16 +10495,16 @@
         "flightId": "MU2043",
         "scheduleTime": "20:40",
         "days": {
-          "mon": true,
-          "tue": true,
-          "wed": false,
-          "thu": true,
-          "fri": false,
-          "sat": true,
-          "sun": true
+          "mon": false,
+          "tue": false,
+          "wed": true,
+          "thu": false,
+          "fri": true,
+          "sat": false,
+          "sun": false
         },
-        "firstDate": "2025-10-26",
-        "lastDate": "2026-02-15",
+        "firstDate": "2025-10-29",
+        "lastDate": "2026-03-27",
         "season": "W25"
       },
       {
@@ -10563,33 +10512,33 @@
         "flightId": "KE5870",
         "scheduleTime": "20:40",
         "days": {
-          "mon": true,
-          "tue": true,
-          "wed": false,
-          "thu": true,
-          "fri": false,
-          "sat": true,
-          "sun": true
+          "mon": false,
+          "tue": false,
+          "wed": true,
+          "thu": false,
+          "fri": true,
+          "sat": false,
+          "sun": false
         },
-        "firstDate": "2025-10-26",
-        "lastDate": "2026-02-15",
+        "firstDate": "2025-10-29",
+        "lastDate": "2026-03-27",
         "season": "W25"
       },
       {
-        "airline": "중국국제항공",
-        "flightId": "CA8881",
-        "scheduleTime": "21:10",
+        "airline": "상하이항공",
+        "flightId": "FM3075",
+        "scheduleTime": "20:40",
         "days": {
-          "mon": true,
-          "tue": true,
+          "mon": false,
+          "tue": false,
           "wed": true,
-          "thu": true,
+          "thu": false,
           "fri": true,
-          "sat": true,
-          "sun": true
+          "sat": false,
+          "sun": false
         },
-        "firstDate": "2025-12-11",
-        "lastDate": "2026-02-15",
+        "firstDate": "2025-10-29",
+        "lastDate": "2026-03-27",
         "season": "W25"
       },
       {
@@ -10605,8 +10554,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2025-12-11",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-18",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -10622,8 +10571,25 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2025-12-11",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-18",
+        "lastDate": "2026-03-28",
+        "season": "W25"
+      },
+      {
+        "airline": "중국국제항공",
+        "flightId": "CA8881",
+        "scheduleTime": "21:10",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-18",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -11869,558 +11835,6 @@
     ]
   },
   {
-    "depAirportCode": "BKK",
-    "depAirportName": "방콕/수완나품",
-    "arrAirportCode": "ICN",
-    "arrAirportName": "인천",
-    "flights": [
-      {
-        "airline": "대한항공",
-        "flightId": "KE658",
-        "scheduleTime": "04:45",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "케냐항공",
-        "flightId": "KQ5150",
-        "scheduleTime": "04:45",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "델타항공",
-        "flightId": "DL7858",
-        "scheduleTime": "04:45",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "에어부산",
-        "flightId": "BX728",
-        "scheduleTime": "06:05",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "진에어",
-        "flightId": "LJ002",
-        "scheduleTime": "06:05",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": false,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-08",
-        "lastDate": "2026-02-17",
-        "season": "W25"
-      },
-      {
-        "airline": "대한항공",
-        "flightId": "KE5066",
-        "scheduleTime": "06:05",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": false,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-08",
-        "lastDate": "2026-02-17",
-        "season": "W25"
-      },
-      {
-        "airline": "이스타항공",
-        "flightId": "ZE512",
-        "scheduleTime": "06:20",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "에어프레미아",
-        "flightId": "YP602",
-        "scheduleTime": "06:35",
-        "days": {
-          "mon": false,
-          "tue": false,
-          "wed": false,
-          "thu": true,
-          "fri": false,
-          "sat": true,
-          "sun": false
-        },
-        "firstDate": "2025-12-04",
-        "lastDate": "2026-03-28",
-        "season": "W25"
-      },
-      {
-        "airline": "타이항공",
-        "flightId": "TG658",
-        "scheduleTime": "06:35",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-31",
-        "lastDate": "2026-02-28",
-        "season": "W25"
-      },
-      {
-        "airline": "대한항공",
-        "flightId": "KE652",
-        "scheduleTime": "06:35",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-10",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "델타항공",
-        "flightId": "DL7854",
-        "scheduleTime": "06:35",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-10",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "하와이안 항공",
-        "flightId": "HA6010",
-        "scheduleTime": "06:35",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-10",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "웨스트젯",
-        "flightId": "WS6042",
-        "scheduleTime": "06:35",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-10",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "타이항공",
-        "flightId": "TG656",
-        "scheduleTime": "06:55",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-12",
-        "lastDate": "2026-03-28",
-        "season": "W25"
-      },
-      {
-        "airline": "타이항공",
-        "flightId": "TG6726",
-        "scheduleTime": "06:55",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-16",
-        "lastDate": "2026-03-03",
-        "season": "W25"
-      },
-      {
-        "airline": "아시아나항공",
-        "flightId": "OZ742",
-        "scheduleTime": "06:55",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-16",
-        "lastDate": "2026-03-03",
-        "season": "W25"
-      },
-      {
-        "airline": "에어캐나다",
-        "flightId": "AC6997",
-        "scheduleTime": "06:55",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-16",
-        "lastDate": "2026-03-03",
-        "season": "W25"
-      },
-      {
-        "airline": "에티오피아항공",
-        "flightId": "ET1299",
-        "scheduleTime": "06:55",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-16",
-        "lastDate": "2026-03-03",
-        "season": "W25"
-      },
-      {
-        "airline": "오스트리아 항공",
-        "flightId": "OS8051",
-        "scheduleTime": "06:55",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-16",
-        "lastDate": "2026-03-03",
-        "season": "W25"
-      },
-      {
-        "airline": "델타항공",
-        "flightId": "DL7826",
-        "scheduleTime": "08:15",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-02",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "대한항공",
-        "flightId": "KE654",
-        "scheduleTime": "08:15",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-02",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "제주항공",
-        "flightId": "7C2504",
-        "scheduleTime": "08:25",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "티웨이항공",
-        "flightId": "TW102",
-        "scheduleTime": "09:00",
-        "days": {
-          "mon": false,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-01-13",
-        "lastDate": "2026-03-01",
-        "season": "W25"
-      },
-      {
-        "airline": "티웨이항공",
-        "flightId": "TW104",
-        "scheduleTime": "09:30",
-        "days": {
-          "mon": false,
-          "tue": false,
-          "wed": false,
-          "thu": false,
-          "fri": false,
-          "sat": false,
-          "sun": true
-        },
-        "firstDate": "2026-02-15",
-        "lastDate": "2026-02-15",
-        "season": "W25"
-      },
-      {
-        "airline": "대한항공",
-        "flightId": "KE656",
-        "scheduleTime": "09:40",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-11-17",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "타이비엣젯항공",
-        "flightId": "VZ850",
-        "scheduleTime": "09:55",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-26",
-        "lastDate": "2026-03-28",
-        "season": "W25"
-      },
-      {
-        "airline": "타이항공",
-        "flightId": "TG652",
-        "scheduleTime": "15:25",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-16",
-        "lastDate": "2026-02-18",
-        "season": "W25"
-      },
-      {
-        "airline": "대한항공",
-        "flightId": "KE660",
-        "scheduleTime": "17:05",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "델타항공",
-        "flightId": "DL7853",
-        "scheduleTime": "17:05",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "하와이안 항공",
-        "flightId": "HA6012",
-        "scheduleTime": "17:05",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "웨스트젯",
-        "flightId": "WS6074",
-        "scheduleTime": "17:05",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-10-27",
-        "lastDate": "2026-03-29",
-        "season": "W25"
-      },
-      {
-        "airline": "아시아나항공",
-        "flightId": "OZ744",
-        "scheduleTime": "19:40",
-        "days": {
-          "mon": true,
-          "tue": false,
-          "wed": true,
-          "thu": false,
-          "fri": true,
-          "sat": false,
-          "sun": true
-        },
-        "firstDate": "2025-10-26",
-        "lastDate": "2026-03-27",
-        "season": "W25"
-      }
-    ]
-  },
-  {
     "depAirportCode": "CJJ",
     "depAirportName": "청주",
     "arrAirportCode": "CJU",
@@ -12969,6 +12383,541 @@
         "firstDate": "2026-02-15",
         "lastDate": "2026-02-21",
         "season": ""
+      }
+    ]
+  },
+  {
+    "depAirportCode": "BKK",
+    "depAirportName": "방콕/수완나품",
+    "arrAirportCode": "ICN",
+    "arrAirportName": "인천",
+    "flights": [
+      {
+        "airline": "대한항공",
+        "flightId": "KE658",
+        "scheduleTime": "04:45",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "케냐항공",
+        "flightId": "KQ5150",
+        "scheduleTime": "04:45",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "델타항공",
+        "flightId": "DL7858",
+        "scheduleTime": "04:45",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "에어부산",
+        "flightId": "BX728",
+        "scheduleTime": "06:05",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "진에어",
+        "flightId": "LJ002",
+        "scheduleTime": "06:05",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": false,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-08",
+        "lastDate": "2026-02-17",
+        "season": "W25"
+      },
+      {
+        "airline": "대한항공",
+        "flightId": "KE5066",
+        "scheduleTime": "06:05",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": false,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-08",
+        "lastDate": "2026-02-17",
+        "season": "W25"
+      },
+      {
+        "airline": "이스타항공",
+        "flightId": "ZE512",
+        "scheduleTime": "06:20",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "에어프레미아",
+        "flightId": "YP602",
+        "scheduleTime": "06:35",
+        "days": {
+          "mon": false,
+          "tue": false,
+          "wed": false,
+          "thu": true,
+          "fri": false,
+          "sat": true,
+          "sun": false
+        },
+        "firstDate": "2025-12-04",
+        "lastDate": "2026-03-28",
+        "season": "W25"
+      },
+      {
+        "airline": "타이항공",
+        "flightId": "TG658",
+        "scheduleTime": "06:35",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-31",
+        "lastDate": "2026-02-28",
+        "season": "W25"
+      },
+      {
+        "airline": "대한항공",
+        "flightId": "KE652",
+        "scheduleTime": "06:35",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-10",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "델타항공",
+        "flightId": "DL7854",
+        "scheduleTime": "06:35",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-10",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "하와이안 항공",
+        "flightId": "HA6010",
+        "scheduleTime": "06:35",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-10",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "웨스트젯",
+        "flightId": "WS6042",
+        "scheduleTime": "06:35",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-10",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "타이항공",
+        "flightId": "TG656",
+        "scheduleTime": "06:55",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-12",
+        "lastDate": "2026-03-28",
+        "season": "W25"
+      },
+      {
+        "airline": "타이항공",
+        "flightId": "TG6726",
+        "scheduleTime": "06:55",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-16",
+        "lastDate": "2026-03-03",
+        "season": "W25"
+      },
+      {
+        "airline": "아시아나항공",
+        "flightId": "OZ742",
+        "scheduleTime": "06:55",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-16",
+        "lastDate": "2026-03-03",
+        "season": "W25"
+      },
+      {
+        "airline": "에어캐나다",
+        "flightId": "AC6997",
+        "scheduleTime": "06:55",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-16",
+        "lastDate": "2026-03-03",
+        "season": "W25"
+      },
+      {
+        "airline": "에티오피아항공",
+        "flightId": "ET1299",
+        "scheduleTime": "06:55",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-16",
+        "lastDate": "2026-03-03",
+        "season": "W25"
+      },
+      {
+        "airline": "오스트리아 항공",
+        "flightId": "OS8051",
+        "scheduleTime": "06:55",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-16",
+        "lastDate": "2026-03-03",
+        "season": "W25"
+      },
+      {
+        "airline": "델타항공",
+        "flightId": "DL7826",
+        "scheduleTime": "08:15",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-02",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "대한항공",
+        "flightId": "KE654",
+        "scheduleTime": "08:15",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-02",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "제주항공",
+        "flightId": "7C2504",
+        "scheduleTime": "08:25",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "티웨이항공",
+        "flightId": "TW102",
+        "scheduleTime": "09:00",
+        "days": {
+          "mon": false,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-01-13",
+        "lastDate": "2026-03-01",
+        "season": "W25"
+      },
+      {
+        "airline": "대한항공",
+        "flightId": "KE656",
+        "scheduleTime": "09:40",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-11-17",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "타이비엣젯항공",
+        "flightId": "VZ850",
+        "scheduleTime": "09:55",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-26",
+        "lastDate": "2026-03-28",
+        "season": "W25"
+      },
+      {
+        "airline": "타이항공",
+        "flightId": "TG652",
+        "scheduleTime": "15:25",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-18",
+        "season": "W25"
+      },
+      {
+        "airline": "대한항공",
+        "flightId": "KE660",
+        "scheduleTime": "17:05",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "델타항공",
+        "flightId": "DL7853",
+        "scheduleTime": "17:05",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "하와이안 항공",
+        "flightId": "HA6012",
+        "scheduleTime": "17:05",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "웨스트젯",
+        "flightId": "WS6074",
+        "scheduleTime": "17:05",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-10-27",
+        "lastDate": "2026-03-29",
+        "season": "W25"
+      },
+      {
+        "airline": "아시아나항공",
+        "flightId": "OZ744",
+        "scheduleTime": "19:40",
+        "days": {
+          "mon": true,
+          "tue": false,
+          "wed": true,
+          "thu": false,
+          "fri": true,
+          "sat": false,
+          "sun": true
+        },
+        "firstDate": "2025-10-26",
+        "lastDate": "2026-03-27",
+        "season": "W25"
       }
     ]
   },
@@ -13951,8 +13900,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2025-12-10",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-03",
         "season": "W25"
       },
       {
@@ -19533,20 +19482,20 @@
         "season": "W25"
       },
       {
-        "airline": "대한항공",
-        "flightId": "KE5630",
+        "airline": "가루다인도네시아",
+        "flightId": "GA870",
         "scheduleTime": "08:50",
         "days": {
-          "mon": true,
-          "tue": true,
-          "wed": false,
-          "thu": false,
-          "fri": true,
-          "sat": true,
-          "sun": true
+          "mon": false,
+          "tue": false,
+          "wed": true,
+          "thu": true,
+          "fri": false,
+          "sat": false,
+          "sun": false
         },
-        "firstDate": "2026-02-11",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-12",
+        "lastDate": "2026-02-19",
         "season": "W25"
       },
       {
@@ -19554,33 +19503,33 @@
         "flightId": "EY8155",
         "scheduleTime": "08:50",
         "days": {
-          "mon": true,
-          "tue": true,
-          "wed": false,
-          "thu": false,
-          "fri": true,
-          "sat": true,
-          "sun": true
+          "mon": false,
+          "tue": false,
+          "wed": true,
+          "thu": true,
+          "fri": false,
+          "sat": false,
+          "sun": false
         },
-        "firstDate": "2026-02-11",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-12",
+        "lastDate": "2026-02-19",
         "season": "W25"
       },
       {
-        "airline": "가루다인도네시아",
-        "flightId": "GA870",
+        "airline": "대한항공",
+        "flightId": "KE5630",
         "scheduleTime": "08:50",
         "days": {
-          "mon": true,
-          "tue": true,
-          "wed": false,
-          "thu": false,
-          "fri": true,
-          "sat": true,
-          "sun": true
+          "mon": false,
+          "tue": false,
+          "wed": true,
+          "thu": true,
+          "fri": false,
+          "sat": false,
+          "sun": false
         },
-        "firstDate": "2026-02-11",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-12",
+        "lastDate": "2026-02-19",
         "season": "W25"
       },
       {
@@ -19762,6 +19711,23 @@
         "season": "W25"
       },
       {
+        "airline": "산동항공",
+        "flightId": "SC125",
+        "scheduleTime": "12:25",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": false
+        },
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-21",
+        "season": "W25"
+      },
+      {
         "airline": "중국국제항공",
         "flightId": "CA139",
         "scheduleTime": "12:25",
@@ -19772,10 +19738,10 @@
           "thu": true,
           "fri": true,
           "sat": true,
-          "sun": true
+          "sun": false
         },
-        "firstDate": "2026-02-09",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-21",
         "season": "W25"
       },
       {
@@ -19789,27 +19755,10 @@
           "thu": true,
           "fri": true,
           "sat": true,
-          "sun": true
+          "sun": false
         },
-        "firstDate": "2026-02-09",
-        "lastDate": "2026-02-15",
-        "season": "W25"
-      },
-      {
-        "airline": "산동항공",
-        "flightId": "SC125",
-        "scheduleTime": "12:25",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-09",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-21",
         "season": "W25"
       },
       {
@@ -25522,150 +25471,6 @@
     ]
   },
   {
-    "depAirportCode": "TSN",
-    "depAirportName": "톈진",
-    "arrAirportCode": "ICN",
-    "arrAirportName": "인천",
-    "flights": [
-      {
-        "airline": "천진항공",
-        "flightId": "GS7993",
-        "scheduleTime": "10:45",
-        "days": {
-          "mon": true,
-          "tue": false,
-          "wed": true,
-          "thu": false,
-          "fri": true,
-          "sat": false,
-          "sun": true
-        },
-        "firstDate": "2026-01-19",
-        "lastDate": "2026-03-27",
-        "season": "W25"
-      },
-      {
-        "airline": "중국국제항공",
-        "flightId": "CA171",
-        "scheduleTime": "11:45",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-12-18",
-        "lastDate": "2026-03-28",
-        "season": "W25"
-      },
-      {
-        "airline": "아시아나항공",
-        "flightId": "OZ6812",
-        "scheduleTime": "11:45",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2025-12-18",
-        "lastDate": "2026-03-28",
-        "season": "W25"
-      },
-      {
-        "airline": "중국국제항공",
-        "flightId": "CA801",
-        "scheduleTime": "13:35",
-        "days": {
-          "mon": true,
-          "tue": true,
-          "wed": true,
-          "thu": true,
-          "fri": true,
-          "sat": true,
-          "sun": true
-        },
-        "firstDate": "2026-02-09",
-        "lastDate": "2026-02-15",
-        "season": "W25"
-      },
-      {
-        "airline": "중국국제항공",
-        "flightId": "CA5013",
-        "scheduleTime": "13:45",
-        "days": {
-          "mon": true,
-          "tue": false,
-          "wed": true,
-          "thu": false,
-          "fri": true,
-          "sat": false,
-          "sun": false
-        },
-        "firstDate": "2026-02-02",
-        "lastDate": "2026-02-27",
-        "season": "W25"
-      },
-      {
-        "airline": "아시아나항공",
-        "flightId": "OZ328",
-        "scheduleTime": "13:45",
-        "days": {
-          "mon": true,
-          "tue": false,
-          "wed": true,
-          "thu": false,
-          "fri": true,
-          "sat": false,
-          "sun": false
-        },
-        "firstDate": "2026-02-02",
-        "lastDate": "2026-02-27",
-        "season": "W25"
-      },
-      {
-        "airline": "대한항공",
-        "flightId": "KE806",
-        "scheduleTime": "15:15",
-        "days": {
-          "mon": false,
-          "tue": true,
-          "wed": false,
-          "thu": true,
-          "fri": false,
-          "sat": true,
-          "sun": false
-        },
-        "firstDate": "2026-01-03",
-        "lastDate": "2026-03-28",
-        "season": "W25"
-      },
-      {
-        "airline": "샤먼항공",
-        "flightId": "MF9097",
-        "scheduleTime": "15:15",
-        "days": {
-          "mon": false,
-          "tue": true,
-          "wed": false,
-          "thu": true,
-          "fri": false,
-          "sat": true,
-          "sun": false
-        },
-        "firstDate": "2026-01-03",
-        "lastDate": "2026-03-28",
-        "season": "W25"
-      }
-    ]
-  },
-  {
     "depAirportCode": "KMI",
     "depAirportName": "미야자키",
     "arrAirportCode": "ICN",
@@ -26699,6 +26504,133 @@
     ]
   },
   {
+    "depAirportCode": "TSN",
+    "depAirportName": "톈진",
+    "arrAirportCode": "ICN",
+    "arrAirportName": "인천",
+    "flights": [
+      {
+        "airline": "천진항공",
+        "flightId": "GS7993",
+        "scheduleTime": "10:45",
+        "days": {
+          "mon": true,
+          "tue": false,
+          "wed": true,
+          "thu": false,
+          "fri": true,
+          "sat": false,
+          "sun": true
+        },
+        "firstDate": "2026-01-19",
+        "lastDate": "2026-03-27",
+        "season": "W25"
+      },
+      {
+        "airline": "중국국제항공",
+        "flightId": "CA171",
+        "scheduleTime": "11:45",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-12-18",
+        "lastDate": "2026-03-28",
+        "season": "W25"
+      },
+      {
+        "airline": "아시아나항공",
+        "flightId": "OZ6812",
+        "scheduleTime": "11:45",
+        "days": {
+          "mon": true,
+          "tue": true,
+          "wed": true,
+          "thu": true,
+          "fri": true,
+          "sat": true,
+          "sun": true
+        },
+        "firstDate": "2025-12-18",
+        "lastDate": "2026-03-28",
+        "season": "W25"
+      },
+      {
+        "airline": "중국국제항공",
+        "flightId": "CA5013",
+        "scheduleTime": "13:45",
+        "days": {
+          "mon": true,
+          "tue": false,
+          "wed": true,
+          "thu": false,
+          "fri": true,
+          "sat": false,
+          "sun": false
+        },
+        "firstDate": "2026-02-02",
+        "lastDate": "2026-02-27",
+        "season": "W25"
+      },
+      {
+        "airline": "아시아나항공",
+        "flightId": "OZ328",
+        "scheduleTime": "13:45",
+        "days": {
+          "mon": true,
+          "tue": false,
+          "wed": true,
+          "thu": false,
+          "fri": true,
+          "sat": false,
+          "sun": false
+        },
+        "firstDate": "2026-02-02",
+        "lastDate": "2026-02-27",
+        "season": "W25"
+      },
+      {
+        "airline": "대한항공",
+        "flightId": "KE806",
+        "scheduleTime": "15:15",
+        "days": {
+          "mon": false,
+          "tue": true,
+          "wed": false,
+          "thu": true,
+          "fri": false,
+          "sat": true,
+          "sun": false
+        },
+        "firstDate": "2026-01-03",
+        "lastDate": "2026-03-28",
+        "season": "W25"
+      },
+      {
+        "airline": "샤먼항공",
+        "flightId": "MF9097",
+        "scheduleTime": "15:15",
+        "days": {
+          "mon": false,
+          "tue": true,
+          "wed": false,
+          "thu": true,
+          "fri": false,
+          "sat": true,
+          "sun": false
+        },
+        "firstDate": "2026-01-03",
+        "lastDate": "2026-03-28",
+        "season": "W25"
+      }
+    ]
+  },
+  {
     "depAirportCode": "TNA",
     "depAirportName": "지난",
     "arrAirportCode": "ICN",
@@ -26768,8 +26700,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2025-10-26",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -26785,8 +26717,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2025-10-26",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -26802,8 +26734,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2025-10-26",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
         "season": "W25"
       }
     ]
@@ -27641,15 +27573,15 @@
         "scheduleTime": "13:00",
         "days": {
           "mon": true,
-          "tue": true,
+          "tue": false,
           "wed": true,
           "thu": true,
           "fri": true,
-          "sat": true,
+          "sat": false,
           "sun": true
         },
-        "firstDate": "2026-02-09",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-27",
         "season": "W25"
       },
       {
@@ -27658,15 +27590,15 @@
         "scheduleTime": "13:00",
         "days": {
           "mon": true,
-          "tue": true,
+          "tue": false,
           "wed": true,
           "thu": true,
           "fri": true,
-          "sat": true,
+          "sat": false,
           "sun": true
         },
-        "firstDate": "2026-02-09",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-27",
         "season": "W25"
       },
       {
@@ -27675,15 +27607,15 @@
         "scheduleTime": "13:00",
         "days": {
           "mon": true,
-          "tue": true,
+          "tue": false,
           "wed": true,
           "thu": true,
           "fri": true,
-          "sat": true,
+          "sat": false,
           "sun": true
         },
-        "firstDate": "2026-02-09",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-16",
+        "lastDate": "2026-02-27",
         "season": "W25"
       }
     ]
@@ -28554,15 +28486,15 @@
         "scheduleTime": "20:45",
         "days": {
           "mon": false,
-          "tue": false,
-          "wed": false,
+          "tue": true,
+          "wed": true,
           "thu": true,
           "fri": true,
           "sat": true,
-          "sun": true
+          "sun": false
         },
-        "firstDate": "2026-02-12",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-24",
+        "lastDate": "2026-02-28",
         "season": "W25"
       }
     ]
@@ -28983,8 +28915,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-02-12",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-28",
         "season": "W25"
       },
       {
@@ -29169,8 +29101,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2026-02-10",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-02-28",
         "season": "W25"
       }
     ]
@@ -30772,8 +30704,8 @@
           "sat": false,
           "sun": false
         },
-        "firstDate": "2026-02-14",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-02-19",
         "season": "W25"
       },
       {
@@ -30789,8 +30721,8 @@
           "sat": true,
           "sun": true
         },
-        "firstDate": "2025-11-24",
-        "lastDate": "2026-02-15",
+        "firstDate": "2026-02-17",
+        "lastDate": "2026-03-27",
         "season": "W25"
       }
     ]
