@@ -4,17 +4,15 @@
  * 1. 인천국제공항공사 (공공데이터포털) — ICN 출발/도착 국제선
  *    API: https://www.data.go.kr/data/15095059/openapi.do
  *
- * 2. 한국공항공사 (KAC) — 14개 국내공항 국내선/국제선
- *    국내선: http://openapi.airport.co.kr/service/rest/DflightScheduleList
- *    국제선: http://openapi.airport.co.kr/service/rest/IflightScheduleList
+ * 2. TAGO (국토교통부) — 14개 국내공항 국내선 운항정보
+ *    API: https://www.data.go.kr/data/15098526/openapi.do
  *
- * 사용법: npm run fetch-data  (.env 파일에서 FLIGHT_API_KEY 자동 로드, KAC도 동일 키 사용)
+ * 사용법: npm run fetch-data  (.env 파일에서 FLIGHT_API_KEY 자동 로드)
  */
 
 import 'dotenv/config';
 import * as fs from 'fs';
 import * as path from 'path';
-import { XMLParser } from 'fast-xml-parser';
 
 // ===== 타입 정의 =====
 
@@ -37,25 +35,22 @@ interface ScheduleItem {
   sunday: string;       // 일요일 취항
 }
 
-/** KAC API 응답 항목 (국내선/국제선 공통 구조) */
-interface KacFlightItem {
-  airline: string;         // 항공사명 (한글)
-  airlineCode: string;     // 항공사 코드
-  flightid: string;        // 편명
-  st: string;              // 출발/도착 시간 (HHmm)
-  firstdate: string;       // 운항 시작일 (YYYYMMDD)
-  lastdate: string;        // 운항 종료일 (YYYYMMDD)
-  ynmon: string;           // 월요일 (Y/N)
-  yntue: string;           // 화요일
-  ynwed: string;           // 수요일
-  ynthu: string;           // 목요일
-  ynfri: string;           // 금요일
-  ynsat: string;           // 토요일
-  ynsun: string;           // 일요일
-  depCityCode: string;     // 출발 공항 코드
-  arrvCityCode: string;    // 도착 공항 코드
-  depCity: string;         // 출발 도시명
-  arrvCity: string;        // 도착 도시명
+/** TAGO API 공항 항목 */
+interface TagoAirport {
+  airportId: string;   // e.g., NAARKSS
+  airportNm: string;   // e.g., 김포
+}
+
+/** TAGO API 항공편 항목 */
+interface TagoFlightItem {
+  vihicleId: string;      // 항공편명 (OZ8903)
+  airlineNm?: string;     // 항공사명
+  depPlandTime: number;   // 출발시간 (YYYYMMDDHHmm 숫자)
+  arrPlandTime: number;   // 도착시간
+  depAirportNm: string;   // 출발공항명
+  arrAirportNm: string;   // 도착공항명
+  economyCharge?: number;
+  prestigeCharge?: number;
 }
 
 interface Airport {
@@ -100,24 +95,27 @@ interface Metadata {
 // ===== 설정 =====
 
 const SERVICE_KEY = process.env.FLIGHT_API_KEY || '';
-const KAC_SERVICE_KEY = process.env.KAC_API_KEY || process.env.FLIGHT_API_KEY || '';
 const DATA_DIR = path.join(process.cwd(), 'data');
 
 // 인천공항공사 여객기 정기운항편 일정 정보 API (HTTPS)
 const DEPARTURE_URL = 'https://apis.data.go.kr/B551177/PaxFltSched/getPaxFltSchedDepartures';
 const ARRIVAL_URL = 'https://apis.data.go.kr/B551177/PaxFltSched/getPaxFltSchedArrivals';
 
-// 한국공항공사 (KAC) API — 공공데이터포털 경유
-const KAC_DOMESTIC_URL = 'http://openapi.airport.co.kr/service/rest/statusofPaxSeasonalFlight/getDPaxSfitSched';
-const KAC_INTERNATIONAL_URL = 'http://openapi.airport.co.kr/service/rest/statusofPaxSeasonalFlight/getIPaxSfitSched';
+// TAGO 국내항공운항정보 API (국토교통부)
+const TAGO_BASE_URL = 'http://apis.data.go.kr/1613000/DmstcFlightNvgInfoService';
 
-// KAC 관할 14개 공항
-const KAC_AIRPORTS = ['GMP', 'PUS', 'CJU', 'TAE', 'KWJ', 'USN', 'RSU', 'HIN', 'KPO', 'KUV', 'WJU', 'YNY', 'MWX', 'CJJ'];
+// 공항명 → IATA 코드 매핑
+const AIRPORT_NAME_TO_IATA: Record<string, string> = {
+  '김포': 'GMP', '김해': 'PUS', '제주': 'CJU', '대구': 'TAE',
+  '광주': 'KWJ', '울산': 'USN', '여수': 'RSU', '사천': 'HIN',
+  '포항': 'KPO', '군산': 'KUV', '원주': 'WJU', '양양': 'YNY',
+  '무안': 'MWX', '청주': 'CJJ', '인천': 'ICN',
+};
 
-// KAC 공항 한글명
-const KAC_AIRPORT_NAMES: Record<string, string> = {
+// IATA 코드 → 공항 한글명
+const IATA_TO_NAME: Record<string, string> = {
   GMP: '김포', PUS: '김해', CJU: '제주', TAE: '대구', KWJ: '광주',
-  USN: '울산', RSU: '여수', HIN: '사천', KPO: '포항경주', KUV: '군산',
+  USN: '울산', RSU: '여수', HIN: '사천', KPO: '포항', KUV: '군산',
   WJU: '원주', YNY: '양양', MWX: '무안', CJJ: '청주',
 };
 
@@ -333,88 +331,81 @@ function processSchedules(items: ScheduleItem[], type: 'departure' | 'arrival'):
   return { routes, airports, season };
 }
 
-// ===== KAC API =====
+// ===== TAGO 국내선 API =====
 
-const xmlParser = new XMLParser({
-  ignoreAttributes: false,
-  parseTagValue: false, // 숫자 자동 변환 방지 — 편명, 시간 등 문자열 유지
-});
+/** TAGO JSON API 호출 */
+async function fetchTagoJson(endpoint: string, params: Record<string, string>): Promise<Record<string, unknown>> {
+  const queryParts = [`serviceKey=${SERVICE_KEY}`, '_type=json'];
+  for (const [key, value] of Object.entries(params)) {
+    queryParts.push(`${key}=${encodeURIComponent(value)}`);
+  }
+  const url = `${TAGO_BASE_URL}/${endpoint}?${queryParts.join('&')}`;
 
-/** KAC XML API에서 모든 페이지 수집 */
-async function fetchKacXmlPages(url: string, params: Record<string, string>): Promise<unknown[]> {
-  const allItems: unknown[] = [];
+  const response = await fetch(url);
+  const text = await response.text();
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${text.substring(0, 200)}`);
+  }
+
+  if (text.startsWith('<?xml') || text.startsWith('<')) {
+    const errMatch = text.match(/returnAuthMsg>([^<]+)/);
+    throw new Error(`API 에러: ${errMatch?.[1] || text.substring(0, 200)}`);
+  }
+
+  return JSON.parse(text);
+}
+
+/** TAGO 공항 목록 조회 */
+async function fetchTagoAirports(): Promise<TagoAirport[]> {
+  const data = await fetchTagoJson('getArprtList', {}) as { response: { header: { resultCode: string; resultMsg: string }; body: { items: { item: TagoAirport | TagoAirport[] } } } };
+
+  if (data.response?.header?.resultCode !== '00') {
+    throw new Error(`공항 목록 조회 실패: ${data.response?.header?.resultMsg}`);
+  }
+
+  const items = data.response?.body?.items?.item;
+  if (!items) return [];
+  return Array.isArray(items) ? items : [items];
+}
+
+/** TAGO 특정 노선+날짜의 항공편 조회 */
+async function fetchTagoFlights(depAirportId: string, arrAirportId: string, date: string): Promise<TagoFlightItem[]> {
+  const allItems: TagoFlightItem[] = [];
   let pageNo = 1;
-  const numOfRows = 1000;
+  const numOfRows = 200;
 
   while (true) {
-    // serviceKey가 이미 인코딩된 경우 대비: 직접 URL 구성
-    const fullUrl = `${url}?serviceKey=${KAC_SERVICE_KEY}&numOfRows=${numOfRows}&pageNo=${pageNo}&${Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&')}`;
-
     try {
-      const response = await fetch(fullUrl);
-      const text = await response.text();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const data = await fetchTagoJson('getFlightOpratInfoList', {
+        depAirportId,
+        arrAirportId,
+        depPlandTime: date,
+        numOfRows: String(numOfRows),
+        pageNo: String(pageNo),
+      }) as any;
 
-      if (!response.ok) {
-        console.error(`    KAC HTTP 에러: ${response.status}`);
-        break;
-      }
+      if (data.response?.header?.resultCode !== '00') break;
 
-      if (!text || text.trim() === '') break;
-
-      const parsed = xmlParser.parse(text);
-      const body = parsed?.response?.body;
-
-      if (!body) {
-        // 에러 응답 확인
-        const errMsg = parsed?.response?.header?.resultMsg || parsed?.OpenAPI_ServiceResponse?.cmmMsgHeader?.errMsg;
-        if (errMsg) {
-          console.error(`    KAC API 에러: ${errMsg}`);
-        }
-        break;
-      }
-
-      const totalCount = Number(body.totalCount) || 0;
+      const totalCount = data.response?.body?.totalCount || 0;
       if (totalCount === 0) break;
 
-      const items = body.items?.item;
+      const items = data.response?.body?.items?.item;
       if (!items) break;
 
       const itemList = Array.isArray(items) ? items : [items];
       allItems.push(...itemList);
 
       if (allItems.length >= totalCount) break;
-
       pageNo++;
-      await delay(500);
-    } catch (error) {
-      console.error(`    KAC 페이지 ${pageNo} 에러:`, error);
+      await delay(300);
+    } catch {
       break;
     }
   }
 
   return allItems;
-}
-
-/** KAC 국내선 수집 (특정 공항 출발) */
-async function fetchKacDomestic(airportCode: string): Promise<KacFlightItem[]> {
-  const items = await fetchKacXmlPages(KAC_DOMESTIC_URL, {
-    depCityCode: airportCode,
-  });
-  return items as KacFlightItem[];
-}
-
-/** KAC 국제선 수집 (특정 공항 출발 + 도착) */
-async function fetchKacInternational(airportCode: string): Promise<KacFlightItem[]> {
-  // 출발편: depCityCode로 조회
-  const depItems = await fetchKacXmlPages(KAC_INTERNATIONAL_URL, {
-    depCityCode: airportCode,
-  });
-  await delay(500);
-  // 도착편: arrvCityCode로 조회
-  const arrItems = await fetchKacXmlPages(KAC_INTERNATIONAL_URL, {
-    arrvCityCode: airportCode,
-  });
-  return [...depItems, ...arrItems] as KacFlightItem[];
 }
 
 /** RouteData에 항공편 추가 (중복 방지) */
@@ -423,121 +414,180 @@ function addFlightToRoute(routeMap: Map<string, RouteData>, routeKey: string, ro
     routeMap.set(routeKey, { ...routeInfo, flights: [] });
   }
   const route = routeMap.get(routeKey)!;
-  // 동일 편명+시간 중복 방지
   const exists = route.flights.find(f => f.flightId === flight.flightId && f.scheduleTime === flight.scheduleTime);
   if (!exists) {
     route.flights.push(flight);
   }
 }
 
-/** KAC 항공편 항목 → FlightEntry 변환 */
-function kacItemToFlight(item: KacFlightItem): FlightEntry | null {
-  const timeStr = String(item.st || '').padStart(4, '0');
-  const scheduleTime = formatTime(timeStr);
-  if (!scheduleTime) return null;
-
-  return {
-    airline: String(item.airline || ''),
-    flightId: String(item.flightid || ''),
-    scheduleTime,
-    days: {
-      mon: String(item.ynmon) === 'Y',
-      tue: String(item.yntue) === 'Y',
-      wed: String(item.ynwed) === 'Y',
-      thu: String(item.ynthu) === 'Y',
-      fri: String(item.ynfri) === 'Y',
-      sat: String(item.ynsat) === 'Y',
-      sun: String(item.ynsun) === 'Y',
-    },
-    firstDate: formatDate(String(item.firstdate || '')),
-    lastDate: formatDate(String(item.lastdate || '')),
-    season: '',
-  };
-}
-
-/** KAC 국내선 데이터 → RouteData 변환 */
-function processKacDomestic(
-  items: KacFlightItem[],
-  depAirportCode: string,
+/** TAGO 국내선 데이터 수집 → depRouteMap/arrRouteMap에 추가 */
+async function collectTagoDomesticData(
   depRouteMap: Map<string, RouteData>,
-  arrRouteMap: Map<string, RouteData>
-): void {
-  for (const item of items) {
-    const depCode = String(item.depCityCode || depAirportCode);
-    const arrCode = String(item.arrvCityCode || '');
-    if (!arrCode) continue;
+  arrRouteMap: Map<string, RouteData>,
+  allAirportMap: Map<string, string>
+): Promise<void> {
+  console.log('\n[2/2] TAGO 국내선 데이터 수집');
 
-    // ICN 관련 노선은 스킵
-    if (arrCode === 'ICN' || depCode === 'ICN') continue;
-
-    const depName = KAC_AIRPORT_NAMES[depCode] || String(item.depCity || depCode);
-    const arrName = KAC_AIRPORT_NAMES[arrCode] || String(item.arrvCity || arrCode);
-
-    const flight = kacItemToFlight(item);
-    if (!flight) continue;
-
-    // 출발편
-    const depKey = `${depCode}-${arrCode}`;
-    addFlightToRoute(depRouteMap, depKey, {
-      depAirportCode: depCode,
-      depAirportName: depName,
-      arrAirportCode: arrCode,
-      arrAirportName: arrName,
-    }, flight);
-
-    // 도착편 (역방향)
-    const arrKey = `${depCode}-${arrCode}`;
-    addFlightToRoute(arrRouteMap, arrKey, {
-      depAirportCode: depCode,
-      depAirportName: depName,
-      arrAirportCode: arrCode,
-      arrAirportName: arrName,
-    }, flight);
+  // 1. 공항 목록 조회
+  let tagoAirports: TagoAirport[];
+  try {
+    tagoAirports = await fetchTagoAirports();
+    console.log(`  공항 ${tagoAirports.length}개 확인`);
+  } catch (error) {
+    console.error('  TAGO 공항 목록 조회 실패:', error);
+    return;
   }
-}
 
-/** KAC 국제선 데이터 → RouteData 변환 */
-function processKacInternational(
-  items: KacFlightItem[],
-  airportCode: string,
-  depRouteMap: Map<string, RouteData>,
-  arrRouteMap: Map<string, RouteData>
-): void {
-  for (const item of items) {
-    const depCode = String(item.depCityCode || '');
-    const arrCode = String(item.arrvCityCode || '');
-    if (!depCode || !arrCode) continue;
+  // 2. 공항 ID→IATA 매핑 (ICN 제외 — ICN은 공공데이터포털에서 수집)
+  const airportIdToIata = new Map<string, string>();
+  const domesticAirports: TagoAirport[] = [];
 
-    // ICN 관련 노선 제외 (ICN 데이터는 공공데이터포털에서 수집)
-    if (depCode === 'ICN' || arrCode === 'ICN') continue;
-
-    const depName = KAC_AIRPORT_NAMES[depCode] || String(item.depCity || depCode);
-    const arrName = KAC_AIRPORT_NAMES[arrCode] || String(item.arrvCity || arrCode);
-
-    const flight = kacItemToFlight(item);
-    if (!flight) continue;
-
-    // depCityCode가 한국 공항이면 출발편, 아니면 도착편
-    const isDepFromKorea = KAC_AIRPORTS.includes(depCode);
-
-    if (isDepFromKorea) {
-      const routeKey = `${depCode}-${arrCode}`;
-      addFlightToRoute(depRouteMap, routeKey, {
-        depAirportCode: depCode,
-        depAirportName: depName,
-        arrAirportCode: arrCode,
-        arrAirportName: arrName,
-      }, flight);
-    } else {
-      const routeKey = `${depCode}-${arrCode}`;
-      addFlightToRoute(arrRouteMap, routeKey, {
-        depAirportCode: depCode,
-        depAirportName: depName,
-        arrAirportCode: arrCode,
-        arrAirportName: arrName,
-      }, flight);
+  for (const apt of tagoAirports) {
+    const iata = AIRPORT_NAME_TO_IATA[apt.airportNm];
+    if (iata && iata !== 'ICN') {
+      airportIdToIata.set(apt.airportId, iata);
+      allAirportMap.set(iata, IATA_TO_NAME[iata] || apt.airportNm);
+      domesticAirports.push(apt);
+      console.log(`    ${apt.airportNm} → ${iata} (${apt.airportId})`);
     }
   }
+
+  // 3. 7일간 날짜 생성 (오늘~6일 후 → 모든 요일 커버)
+  const dayKeys: (keyof FlightEntry['days'])[] = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  const dates: { dateStr: string; dayKey: keyof FlightEntry['days'] }[] = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() + i);
+    dates.push({
+      dateStr: d.toISOString().slice(0, 10).replace(/-/g, ''),
+      dayKey: dayKeys[d.getDay()],
+    });
+  }
+  console.log(`  조회 기간: ${dates[0].dateStr} ~ ${dates[6].dateStr}`);
+
+  const firstDateFormatted = formatDate(dates[0].dateStr);
+  const lastDateFormatted = formatDate(dates[6].dateStr);
+
+  // 4. 모든 공항 쌍 조회 — 1단계: 활성 노선 탐색 (첫째날 + 넷째날)
+  type AirportPair = { dep: TagoAirport; arr: TagoAirport };
+  const activePairs: AirportPair[] = [];
+  const pairCount = domesticAirports.length * (domesticAirports.length - 1);
+  let checked = 0;
+
+  console.log(`\n  활성 노선 탐색 (${pairCount}쌍)...`);
+
+  for (const depApt of domesticAirports) {
+    for (const arrApt of domesticAirports) {
+      if (depApt.airportId === arrApt.airportId) continue;
+      checked++;
+
+      // 첫째 날 조회
+      await delay(250);
+      try {
+        let flights = await fetchTagoFlights(depApt.airportId, arrApt.airportId, dates[0].dateStr);
+        if (flights.length === 0) {
+          // 다른 요일에만 운항할 수 있으므로 +3일도 확인
+          await delay(250);
+          flights = await fetchTagoFlights(depApt.airportId, arrApt.airportId, dates[3].dateStr);
+        }
+        if (flights.length > 0) {
+          activePairs.push({ dep: depApt, arr: arrApt });
+        }
+      } catch {
+        // skip
+      }
+
+      if (checked % 20 === 0) {
+        console.log(`    ${checked}/${pairCount} 확인... (활성: ${activePairs.length})`);
+      }
+    }
+  }
+
+  console.log(`  활성 노선: ${activePairs.length}개 발견\n`);
+
+  // 5. 활성 노선별 7일 전체 조회 → 요일별 스케줄 구축
+  let totalFlights = 0;
+
+  for (const { dep: depApt, arr: arrApt } of activePairs) {
+    const depIata = airportIdToIata.get(depApt.airportId)!;
+    const arrIata = airportIdToIata.get(arrApt.airportId)!;
+    const depName = IATA_TO_NAME[depIata] || depApt.airportNm;
+    const arrName = IATA_TO_NAME[arrIata] || arrApt.airportNm;
+
+    // 각 항공편의 운항 요일 추적: key="편명|출발시각"
+    const flightDays = new Map<string, {
+      airline: string;
+      flightId: string;
+      scheduleTime: string;
+      days: Set<keyof FlightEntry['days']>;
+    }>();
+
+    for (const dateInfo of dates) {
+      await delay(250);
+      try {
+        const flights = await fetchTagoFlights(depApt.airportId, arrApt.airportId, dateInfo.dateStr);
+        for (const f of flights) {
+          const timeStr = String(f.depPlandTime).slice(8, 12);
+          const scheduleTime = formatTime(timeStr);
+          if (!scheduleTime) continue;
+
+          const flightId = String(f.vihicleId || '');
+          const key = `${flightId}|${scheduleTime}`;
+
+          if (!flightDays.has(key)) {
+            flightDays.set(key, {
+              airline: String(f.airlineNm || ''),
+              flightId,
+              scheduleTime,
+              days: new Set(),
+            });
+          }
+          flightDays.get(key)!.days.add(dateInfo.dayKey);
+        }
+      } catch {
+        // skip
+      }
+    }
+
+    if (flightDays.size === 0) continue;
+
+    // RouteData 구축
+    const routeKey = `${depIata}-${arrIata}`;
+    const routeInfo = {
+      depAirportCode: depIata,
+      depAirportName: depName,
+      arrAirportCode: arrIata,
+      arrAirportName: arrName,
+    };
+
+    for (const [, fInfo] of flightDays) {
+      const flight: FlightEntry = {
+        airline: fInfo.airline,
+        flightId: fInfo.flightId,
+        scheduleTime: fInfo.scheduleTime,
+        days: {
+          mon: fInfo.days.has('mon'),
+          tue: fInfo.days.has('tue'),
+          wed: fInfo.days.has('wed'),
+          thu: fInfo.days.has('thu'),
+          fri: fInfo.days.has('fri'),
+          sat: fInfo.days.has('sat'),
+          sun: fInfo.days.has('sun'),
+        },
+        firstDate: firstDateFormatted,
+        lastDate: lastDateFormatted,
+        season: '',
+      };
+
+      addFlightToRoute(depRouteMap, routeKey, routeInfo, flight);
+      addFlightToRoute(arrRouteMap, routeKey, routeInfo, flight);
+    }
+
+    totalFlights += flightDays.size;
+    console.log(`    ${depName}(${depIata}) → ${arrName}(${arrIata}): ${flightDays.size}편`);
+  }
+
+  console.log(`\n  TAGO 수집 완료: ${activePairs.length}개 노선, ${totalFlights}편`);
 }
 
 /** 기존 RouteData[]를 Map으로 변환 */
@@ -553,11 +603,9 @@ function routesToMap(routes: RouteData[]): Map<string, RouteData> {
 /** Map<string, RouteData>를 정렬된 배열로 변환 */
 function mapToSortedRoutes(map: Map<string, RouteData>): RouteData[] {
   const routes = Array.from(map.values());
-  // 각 노선 내 항공편 시간순 정렬
   routes.forEach(route => {
     route.flights.sort((a, b) => a.scheduleTime.localeCompare(b.scheduleTime));
   });
-  // 노선을 항공편 수 기준 내림차순 정렬
   routes.sort((a, b) => b.flights.length - a.flights.length);
   return routes;
 }
@@ -600,49 +648,8 @@ async function main() {
   // 시즌 (출발/도착 중 최신)
   const season = departureData.season || arrivalData.season || '';
 
-  // ── 2. KAC 데이터 수집 (한국공항공사) ──
-  if (KAC_SERVICE_KEY) {
-    console.log('\n[2/2] KAC 데이터 수집 (한국공항공사 14개 공항)');
-
-    for (const airportCode of KAC_AIRPORTS) {
-      console.log(`\n  ${KAC_AIRPORT_NAMES[airportCode]}(${airportCode}) 수집...`);
-
-      // KAC 공항 정보 등록
-      allAirportMap.set(airportCode, KAC_AIRPORT_NAMES[airportCode]);
-
-      // 국내선 수집
-      try {
-        const domesticItems = await fetchKacDomestic(airportCode);
-        if (domesticItems.length > 0) {
-          console.log(`    국내선: ${domesticItems.length}건`);
-          processKacDomestic(domesticItems, airportCode, depRouteMap, arrRouteMap);
-        } else {
-          console.log(`    국내선: 0건`);
-        }
-      } catch (error) {
-        console.error(`    국내선 에러:`, error);
-      }
-
-      await delay(500);
-
-      // 국제선 수집
-      try {
-        const intlItems = await fetchKacInternational(airportCode);
-        if (intlItems.length > 0) {
-          console.log(`    국제선: ${intlItems.length}건`);
-          processKacInternational(intlItems, airportCode, depRouteMap, arrRouteMap);
-        } else {
-          console.log(`    국제선: 0건`);
-        }
-      } catch (error) {
-        console.error(`    국제선 에러:`, error);
-      }
-
-      await delay(1000); // API rate limit 대응
-    }
-  } else {
-    console.log('\n[2/2] KAC_API_KEY 미설정 — KAC 데이터 수집 건너뜀');
-  }
+  // ── 2. TAGO 국내선 데이터 수집 ──
+  await collectTagoDomesticData(depRouteMap, arrRouteMap, allAirportMap);
 
   // ── 3. 데이터 병합 및 저장 ──
   const finalDepRoutes = mapToSortedRoutes(depRouteMap);

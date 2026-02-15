@@ -22,7 +22,6 @@
     "dotenv": "^17.2.4",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
-    "fast-xml-parser": "^5.3.6",
     "tailwindcss": "^4",
     "tsx": "^4",
     "typescript": "^5"

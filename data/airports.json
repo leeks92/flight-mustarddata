@@ -24,12 +24,24 @@
     "airportName": "광저우"
   },
   {
+    "airportCode": "KWJ",
+    "airportName": "광주"
+  },
+  {
     "airportCode": "KMJ",
     "airportName": "구마모토"
   },
   {
     "airportCode": "KWL",
     "airportName": "구이린"
+  },
+  {
+    "airportCode": "KUV",
+    "airportName": "군산"
+  },
+  {
+    "airportCode": "GMP",
+    "airportName": "김포"
   },
   {
     "airportCode": "PUS",
@@ -168,6 +180,10 @@
     "airportName": "멜버른"
   },
   {
+    "airportCode": "MWX",
+    "airportName": "무안"
+  },
+  {
     "airportCode": "MUC",
     "airportName": "뮌헨"
   },
@@ -262,6 +278,10 @@
   {
     "airportCode": "SPN",
     "airportName": "사이판"
+  },
+  {
+    "airportCode": "HIN",
+    "airportName": "사천"
   },
   {
     "airportCode": "CTS",
@@ -388,8 +408,16 @@
     "airportName": "양곤"
   },
   {
+    "airportCode": "YNY",
+    "airportName": "양양"
+  },
+  {
     "airportCode": "YTY",
     "airportName": "양저우"
+  },
+  {
+    "airportCode": "RSU",
+    "airportName": "여수"
   },
   {
     "airportCode": "YNJ",
@@ -440,12 +468,20 @@
     "airportName": "우한"
   },
   {
+    "airportCode": "USN",
+    "airportName": "울산"
+  },
+  {
     "airportCode": "IAD",
     "airportName": "워싱턴"
   },
   {
     "airportCode": "WNZ",
     "airportName": "원저우"
+  },
+  {
+    "airportCode": "WJU",
+    "airportName": "원주"
   },
   {
     "airportCode": "WEH",
@@ -488,6 +524,10 @@
     "airportName": "정저우"
   },
   {
+    "airportCode": "CJU",
+    "airportName": "제주"
+  },
+  {
     "airportCode": "TNA",
     "airportName": "지난"
   },
@@ -498,6 +538,10 @@
   {
     "airportCode": "TFU",
     "airportName": "청두/톈푸"
+  },
+  {
+    "airportCode": "CJJ",
+    "airportName": "청주"
   },
   {
     "airportCode": "CKG",
@@ -578,6 +622,10 @@
   {
     "airportCode": "CDG",
     "airportName": "파리/샤를드골"
+  },
+  {
+    "airportCode": "KPO",
+    "airportName": "포항"
   },
   {
     "airportCode": "PQC",
