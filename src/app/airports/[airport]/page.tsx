@@ -150,7 +150,7 @@ export default async function AirportDetailPage({ params }: Props) {
             {depRoutes.map((route) => (
               <Link
                 key={`dep-${route.depAirportCode}-${route.arrAirportCode}`}
-                href={`/arrivals/routes/${route.depAirportCode}-${route.arrAirportCode}`}
+                href={`/departures/routes/${route.depAirportCode}-${route.arrAirportCode}`}
                 className="bg-white border border-gray-200 rounded-lg p-4 hover:border-sky-300 hover:shadow-md transition-all text-sm"
               >
                 <div className="flex items-center justify-between">
@@ -173,7 +173,7 @@ export default async function AirportDetailPage({ params }: Props) {
             {arrRoutes.map((route) => (
               <Link
                 key={`arr-${route.depAirportCode}-${route.arrAirportCode}`}
-                href={`/departures/routes/${route.depAirportCode}-${route.arrAirportCode}`}
+                href={`/arrivals/routes/${route.depAirportCode}-${route.arrAirportCode}`}
                 className="bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-md transition-all text-sm"
               >
                 <div className="flex items-center justify-between">
