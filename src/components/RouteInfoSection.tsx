@@ -4,7 +4,7 @@
  */
 
 import Link from 'next/link';
-import type { RouteStats, FAQItem, RouteRelatedLinks } from '@/lib/route-seo';
+import type { FAQItem, RouteRelatedLinks } from '@/lib/route-seo';
 
 interface RouteInfoSectionProps {
   descriptions: string[];
@@ -13,6 +13,7 @@ interface RouteInfoSectionProps {
   seoMeta: {
     h2RouteInfo: string;
     h2Fare: string;
+    estimatedDuration: string | null;
   };
   type: 'departure' | 'arrival';
 }
@@ -33,10 +34,23 @@ export default function RouteInfoSection({
       {/* 노선 정보 */}
       <section className="mt-10">
         <h2 className="text-xl font-bold text-gray-900 mb-4">{seoMeta.h2RouteInfo}</h2>
-        <div className="bg-white border border-gray-200 rounded-lg p-5 space-y-3 text-sm text-gray-700 leading-relaxed">
-          {descriptions.map((para, i) => (
-            <p key={i}>{para}</p>
-          ))}
+        <div className="bg-white border border-gray-200 rounded-lg p-5 space-y-4">
+          {/* 소요시간 배지 */}
+          {seoMeta.estimatedDuration && (
+            <div className="flex items-center gap-3 bg-sky-50 border border-sky-200 rounded-lg px-4 py-3">
+              <span className="text-2xl font-bold text-sky-700">{seoMeta.estimatedDuration}</span>
+              <div className="text-xs text-sky-600 leading-tight">
+                <span>예상 소요시간 (직항 기준)</span>
+                <br />
+                <span className="text-sky-500">※ 항공편·기상 조건에 따라 달라질 수 있습니다</span>
+              </div>
+            </div>
+          )}
+          <div className="space-y-3 text-sm text-gray-700 leading-relaxed">
+            {descriptions.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
         </div>
       </section>
 

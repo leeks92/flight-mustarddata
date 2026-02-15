@@ -8,6 +8,7 @@ import { getAirportInfo } from './airport-info';
 import { getAirportRegion } from './airport-regions';
 import { getDepartureRoutes, getArrivalRoutes } from './data';
 import { createRouteSlug } from './slug-utils';
+import { estimateFlightDuration } from './flight-duration';
 
 // ── 타입 정의 ──
 
@@ -26,6 +27,7 @@ export interface RouteSeoMeta {
   h2Schedule: string;
   h2RouteInfo: string;
   h2Fare: string;
+  estimatedDuration: string | null; // "약 2시간 20분" 등
 }
 
 export interface FAQItem {
@@ -92,19 +94,28 @@ export function generateRouteSeoMeta(
   const depFullName = getFullAirportName(depCode, depName);
   const arrFullName = getFullAirportName(arrCode, arrName);
 
+  // 소요시간 추정
+  const duration = estimateFlightDuration(depCode, arrCode);
+  const durationText = duration?.formatted || null;
+
+  const titleSuffix = durationText
+    ? `| ${durationText}, 항공사 비교`
+    : '| 항공사 비교';
+
   const title = type === 'departure'
-    ? `${depFullName}에서 ${arrName} 항공편 시간표 | 소요시간, 항공사 요금 비교`
-    : `${depName}발 ${arrFullName} 도착편 시간표 | 소요시간, 항공사 요금 비교`;
+    ? `${depFullName}에서 ${arrName} 항공편 시간표 ${titleSuffix}`
+    : `${depName}발 ${arrFullName} 도착편 시간표 ${titleSuffix}`;
 
   const h1 = `${depFullName} → ${arrFullName} 항공편 시간표`;
-  const h2Schedule = `${depCode}-${arrCode} 운항 스케줄`;
-  const h2RouteInfo = `${depCode}-${arrCode} 노선 정보`;
-  const h2Fare = `${depCode}-${arrCode} 항공권 안내`;
+  const h2Schedule = `${depName} → ${arrName} 운항 스케줄`;
+  const h2RouteInfo = `${depName} → ${arrName} 노선 정보`;
+  const h2Fare = `${depName} → ${arrName} 항공권 안내`;
 
   const topAirlines = stats.airlines.slice(0, 3).join(', ');
-  const description = `${depFullName}에서 ${arrFullName}까지 총 ${stats.totalFlights}편, ${stats.airlines.length}개 항공사 운항. 첫편 ${stats.firstFlight}, 막편 ${stats.lastFlight}. ${topAirlines} 등 취항.`;
+  const durationDesc = durationText ? ` 소요시간 ${durationText}.` : '';
+  const description = `${depFullName}에서 ${arrFullName}까지 총 ${stats.totalFlights}편, ${stats.airlines.length}개 항공사 운항. 첫편 ${stats.firstFlight}, 막편 ${stats.lastFlight}.${durationDesc} ${topAirlines} 등 취항.`;
 
-  return { title, description, h1, h2Schedule, h2RouteInfo, h2Fare };
+  return { title, description, h1, h2Schedule, h2RouteInfo, h2Fare, estimatedDuration: durationText };
 }
 
 /**
@@ -125,10 +136,18 @@ export function generateRouteDescription(
 
   const paragraphs: string[] = [];
 
-  // 문단 1: 운항 개요
-  paragraphs.push(
-    `${depFullName}에서 ${arrFullName}까지 ${typeLabel}편은 총 ${stats.totalFlights}편이 운항하며, ${stats.airlines.length}개 항공사가 취항하고 있습니다. 첫 비행기는 ${stats.firstFlight}에 ${typeLabel}하고, 마지막 비행기는 ${stats.lastFlight}에 ${typeLabel}합니다.${stats.dailyFlights > 0 ? ` 이 중 ${stats.dailyFlights}편은 매일 운항합니다.` : ''}`
-  );
+  // 소요시간 추정
+  const duration = estimateFlightDuration(depCode, arrCode);
+
+  // 문단 1: 운항 개요 + 소요시간
+  let overview = `${depFullName}에서 ${arrFullName}까지 ${typeLabel}편은 총 ${stats.totalFlights}편이 운항하며, ${stats.airlines.length}개 항공사가 취항하고 있습니다. 첫 비행기는 ${stats.firstFlight}에 ${typeLabel}하고, 마지막 비행기는 ${stats.lastFlight}에 ${typeLabel}합니다.`;
+  if (stats.dailyFlights > 0) {
+    overview += ` 이 중 ${stats.dailyFlights}편은 매일 운항합니다.`;
+  }
+  if (duration) {
+    overview += ` 직항 기준 예상 소요시간은 ${duration.formatted}이며, 비행 거리는 약 ${duration.distanceKm.toLocaleString()}km입니다.`;
+  }
+  paragraphs.push(overview);
 
   // 문단 2: 취항 항공사
   paragraphs.push(
@@ -170,28 +189,39 @@ export function generateRouteFAQ(
 
   const items: FAQItem[] = [];
 
-  // Q1: 항공편 수
+  // 소요시간 추정
+  const duration = estimateFlightDuration(depCode, arrCode);
+
+  // Q1: 소요시간 (가장 많이 검색되는 키워드)
+  if (duration) {
+    items.push({
+      question: `${depFullName}에서 ${arrFullName}까지 비행 소요시간은 얼마인가요?`,
+      answer: `직항 기준 예상 소요시간은 ${duration.formatted}입니다 (비행 거리 약 ${duration.distanceKm.toLocaleString()}km). 실제 소요시간은 항공편, 기상 조건, 항로에 따라 달라질 수 있습니다.`,
+    });
+  }
+
+  // Q2: 항공편 수
   items.push({
     question: `${depFullName}에서 ${arrFullName} ${typeLabel}편은 몇 편인가요?`,
     answer: `총 ${stats.totalFlights}편이 운항하며, ${stats.airlines.length}개 항공사가 취항합니다.`,
   });
 
-  // Q2: 항공사 목록
+  // Q3: 항공사 목록
   items.push({
-    question: `${depCode}-${arrCode} 노선에 어떤 항공사가 운항하나요?`,
+    question: `${depName} → ${arrName} 노선에 어떤 항공사가 운항하나요?`,
     answer: `${stats.airlines.join(', ')} 등 ${stats.airlines.length}개 항공사가 운항합니다.`,
   });
 
-  // Q3: 첫편/막편
+  // Q4: 첫편/막편
   items.push({
     question: `${depFullName}에서 ${arrFullName}행 첫 비행기와 마지막 비행기는 몇 시인가요?`,
     answer: `첫 비행기는 ${stats.firstFlight}에, 마지막 비행기는 ${stats.lastFlight}에 ${typeLabel}합니다.`,
   });
 
-  // Q4: 매일 운항 여부 (조건부)
+  // Q5: 매일 운항 여부 (조건부)
   if (stats.dailyFlights < stats.totalFlights) {
     items.push({
-      question: `${depCode}-${arrCode} 노선은 매일 운항하나요?`,
+      question: `${depName} → ${arrName} 노선은 매일 운항하나요?`,
       answer: stats.dailyFlights > 0
         ? `전체 ${stats.totalFlights}편 중 ${stats.dailyFlights}편이 매일 운항하며, 나머지는 특정 요일에만 운항합니다. 자세한 요일은 위 시간표에서 확인하세요.`
         : `모든 항공편이 특정 요일에만 운항합니다. 자세한 운항 요일은 위 시간표에서 확인하세요.`,
@@ -236,7 +266,6 @@ export function getRelatedRoutes(
 
   // 같은 출발지/도착지 노선
   const sourceRoutes = type === 'departure' ? depRoutes : arrRoutes;
-  const routeType = type;
 
   // 같은 출발지 다른 목적지 (편수 순, 최대 5개)
   const sameOriginRoutes = sourceRoutes
