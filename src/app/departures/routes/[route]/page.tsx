@@ -1,11 +1,19 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getDepartureRoutes, getDepartureRoute, getAirport, getMetadata, formatSeason } from '@/lib/data';
-import { BreadcrumbJsonLd, FlightJsonLd } from '@/components/JsonLd';
+import { BreadcrumbJsonLd, FlightJsonLd, FAQJsonLd } from '@/components/JsonLd';
 import { createRouteSlug, parseRouteSlug } from '@/lib/slugs';
 import { notFound } from 'next/navigation';
 import { BASE_URL } from '@/lib/constants';
 import FlightTable from '@/components/FlightTable';
+import RouteInfoSection from '@/components/RouteInfoSection';
+import {
+  computeRouteStats,
+  generateRouteSeoMeta,
+  generateRouteDescription,
+  generateRouteFAQ,
+  getRelatedRoutes,
+} from '@/lib/route-seo';
 
 export const dynamicParams = false;
 
@@ -34,17 +42,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const parsed = parseRouteSlug(routeSlug);
   if (!parsed) return { title: '노선 정보 없음' };
 
+  const route = getDepartureRoute(parsed.depCode, parsed.arrCode);
   const depAirport = getAirport(parsed.depCode);
   const arrAirport = getAirport(parsed.arrCode);
   const depName = depAirport?.airportName || parsed.depCode;
   const arrName = arrAirport?.airportName || parsed.arrCode;
 
+  const stats = route ? computeRouteStats(route.flights) : null;
+  const seoMeta = stats
+    ? generateRouteSeoMeta(parsed.depCode, parsed.arrCode, depName, arrName, stats, 'departure')
+    : null;
+
+  const title = seoMeta?.title || `${depName} → ${arrName} 출발편 정기운항 시간표`;
+  const description = seoMeta?.description || `${depName}에서 ${arrName}까지 정기운항 출발편 시간표입니다.`;
+
   return {
-    title: `${depName} → ${arrName} 출발편 정기운항 시간표 - 항공사, 편명, 운항요일`,
-    description: `${depName}에서 ${arrName}까지 정기운항 출발편 시간표입니다. 항공사별 편명, 출발 시간, 요일별 운항 정보를 확인하세요.`,
+    title,
+    description,
     openGraph: {
-      title: `${depName} → ${arrName} 출발편 시간표`,
-      description: `${depName}에서 ${arrName}까지 정기운항 출발편 시간표. 항공사별 편명, 출발 시간, 운항 요일 정보.`,
+      title,
+      description,
       url: `${BASE_URL}/departures/routes/${routeSlug}`,
       siteName: '항공편 시간표',
       type: 'website',
@@ -52,8 +69,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary',
-      title: `${depName} → ${arrName} 출발편 시간표`,
-      description: `${depName}에서 ${arrName}까지 정기운항 출발편 시간표.`,
+      title,
+      description,
     },
     alternates: {
       canonical: `${BASE_URL}/departures/routes/${routeSlug}`,
@@ -82,6 +99,12 @@ export default async function DepartureRoutePage({ params }: Props) {
   const arrName = arrAirport?.airportName || route.arrAirportName;
   const seasonLabel = metadata?.season ? formatSeason(metadata.season) : '';
 
+  const stats = computeRouteStats(route.flights);
+  const seoMeta = generateRouteSeoMeta(parsed.depCode, parsed.arrCode, depName, arrName, stats, 'departure');
+  const descriptions = generateRouteDescription(parsed.depCode, parsed.arrCode, depName, arrName, stats, 'departure', seasonLabel);
+  const faqItems = generateRouteFAQ(parsed.depCode, parsed.arrCode, depName, arrName, stats, 'departure');
+  const relatedLinks = getRelatedRoutes(parsed.depCode, parsed.arrCode, 'departure');
+
   const breadcrumbItems = [
     { name: '홈', url: BASE_URL },
     { name: '출발편 시간표', url: `${BASE_URL}/departures` },
@@ -93,9 +116,6 @@ export default async function DepartureRoutePage({ params }: Props) {
     a.scheduleTime.localeCompare(b.scheduleTime)
   );
 
-  // 항공사 수
-  const airlines = new Set(sortedFlights.map(f => f.airline));
-
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <BreadcrumbJsonLd items={breadcrumbItems} />
@@ -106,6 +126,7 @@ export default async function DepartureRoutePage({ params }: Props) {
         arrivalIata={parsed.arrCode}
         url={`${BASE_URL}/departures/routes/${routeSlug}`}
       />
+      <FAQJsonLd items={faqItems} />
 
       <nav className="text-sm text-gray-500 mb-6">
         <Link href="/" className="hover:text-sky-600">홈</Link>
@@ -116,12 +137,12 @@ export default async function DepartureRoutePage({ params }: Props) {
       </nav>
 
       <h1 className="text-3xl font-bold text-gray-900 mb-2">
-        {depName} &rarr; {arrName} 출발편
+        {seoMeta.h1}
       </h1>
       <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-8">
-        <span>총 <strong className="text-gray-900">{sortedFlights.length}</strong>편</span>
+        <span>총 <strong className="text-gray-900">{stats.totalFlights}</strong>편</span>
         <span className="text-gray-300">|</span>
-        <span>항공사 <strong className="text-gray-900">{airlines.size}</strong>개</span>
+        <span>항공사 <strong className="text-gray-900">{stats.airlines.length}</strong>개</span>
         {seasonLabel && (
           <>
             <span className="text-gray-300">|</span>
@@ -133,7 +154,8 @@ export default async function DepartureRoutePage({ params }: Props) {
         )}
       </div>
 
-      {/* 시간표 테이블 */}
+      {/* 운항 스케줄 */}
+      <h2 className="text-xl font-bold text-gray-900 mb-4">{seoMeta.h2Schedule}</h2>
       <FlightTable flights={sortedFlights} type="departure" />
 
       {/* 공식 사이트 안내 */}
@@ -144,12 +166,20 @@ export default async function DepartureRoutePage({ params }: Props) {
         </p>
       </div>
 
+      {/* SEO 콘텐츠 섹션 */}
+      <RouteInfoSection
+        descriptions={descriptions}
+        faqItems={faqItems}
+        relatedLinks={relatedLinks}
+        seoMeta={seoMeta}
+        type="departure"
+      />
+
       {/* 안내 문구 */}
-      <div className="mt-4 bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
+      <div className="mt-8 bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
         <p>* 정기운항편 시간표는 인천국제공항공사 및 한국공항공사의 공공데이터를 기반으로 제공되며, 시즌/계절에 따라 변경될 수 있습니다.</p>
         <p className="mt-1">* 정확한 정보는 각 항공사 또는 <a href="https://www.airport.kr" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">인천공항 공식 사이트</a>, <a href="https://www.airport.co.kr" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">한국공항공사</a>에서 확인하세요.</p>
       </div>
     </div>
   );
 }
-
